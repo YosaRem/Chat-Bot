@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Bot/Bot.iml" filepath="$PROJECT_DIR$/Bot/Bot.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Chat-Bot.iml" filepath="$PROJECT_DIR$/Chat-Bot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ChatBot.iml" filepath="$PROJECT_DIR$/.idea/ChatBot.iml" />
       <module fileurl="file://$PROJECT_DIR$/Logic/Logic.iml" filepath="$PROJECT_DIR$/Logic/Logic.iml" />
       <module fileurl="file://$PROJECT_DIR$/Publisher/Publisher.iml" filepath="$PROJECT_DIR$/Publisher/Publisher.iml" />
       <module fileurl="file://$PROJECT_DIR$/Readers/Readers.iml" filepath="$PROJECT_DIR$/Readers/Readers.iml" />
