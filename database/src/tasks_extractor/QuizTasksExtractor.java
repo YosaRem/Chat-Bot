@@ -12,32 +12,19 @@ import java.util.Random;
 import static tasks_extractor.QuizStringName.CORRECT;
 import static tasks_extractor.QuizStringName.QUESTION;
 
-
-
 public class QuizTasksExtractor implements Extractor {
     private int amountFiles;
     private String pathTasks;
 
-    public QuizTasksExtractor() {
-        String path = "resources/questions";
+    public QuizTasksExtractor(String path) {
         pathTasks = path;
-        amountFiles = Objects.requireNonNull(new File(path).listFiles()).length;
+        amountFiles = Objects.requireNonNull(new File(pathTasks).listFiles()).length;
     }
 
     public Task getRandomTask() {
         Random rnd = new Random();
         List<String> strings = getTaskStringsFromFile(rnd.nextInt(amountFiles));
         return taskConstructor(strings);
-    }
-
-    public List<Task> getListAllTasks() {
-        List<Task> result = new ArrayList<>();
-            for (int i = 0; i < amountFiles; i++) {
-                List<String> strings = getTaskStringsFromFile(i);
-                Task task = taskConstructor(strings);
-                result.add(task);
-            }
-        return result;
     }
 
     private List<String> getTaskStringsFromFile(Integer fileNumber) {
@@ -52,7 +39,8 @@ public class QuizTasksExtractor implements Extractor {
                 line = lineReader.readLine();
             }
         } catch (FileNotFoundException e) {
-            System.out.println("Не получается считать задание из файла " + e.getMessage());
+            System.err.println("Не получается считать задание из файла " + e.getMessage());
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,7 +49,6 @@ public class QuizTasksExtractor implements Extractor {
 
     private Task taskConstructor(List<String> strings) {
         return new QuizTask(strings.get(QUESTION.getIndex()), strings.get(CORRECT.getIndex()),
-                            strings.subList(CORRECT.getIndex() + 1, strings.size()));
-
+                strings.subList(CORRECT.getIndex() + 1, strings.size()));
     }
 }

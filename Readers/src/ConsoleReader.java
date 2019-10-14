@@ -23,7 +23,7 @@ public class ConsoleReader implements IReader {
             consoleInput = scanner.nextLine();
         }
         input = consoleInput;
-        subscriber.objectModified(this);
+        subscriber.objectModified();
     }
 
     @Override
