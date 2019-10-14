@@ -12,5 +12,6 @@
     <orderEntry type="module" module-name="Writer" />
     <orderEntry type="module" module-name="Logic" />
     <orderEntry type="module" module-name="Publisher" />
+    <orderEntry type="module" module-name="Readers" />
   </component>
 </module>

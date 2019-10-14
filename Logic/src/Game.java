@@ -3,40 +3,34 @@ import taks_models.Task;
 import tasks_extractor.QuizTasksExtractor;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Game implements ISubscriber {
     private QuizTasksExtractor extractor;
-    private IReader reader;
     private IWriter writer;
     private Task currentTask;
+    private String path;
 
-    public Game(QuizTasksExtractor extractor, IWriter writer) {
+    public Game(QuizTasksExtractor extractor, IWriter writer, String instructionsPath) {
         this.extractor = extractor;
-        this.reader = new ConsoleReader(this);
         this.writer = writer;
+        this.path = instructionsPath;
     }
 
     public void startGame() {
         printHelp();
-        while (true) {
-            currentTask = extractor.getRandomTask();
-            printTask();
-            reader.continueRead();
-        }
+        currentTask = extractor.getRandomTask();
+        printTask();
     }
 
-    private void continueGame() {
-        switch (reader.getInput()) {
+    private void continueGame(String input) {
+        switch (input) {
             case "/help": {
                 printHelp();
                 break;
             }
             default: {
                 try {
-                    String answer = reader.getInput();
-                    if (currentTask.checkAnswer(answer)) {
+                    if (currentTask.checkAnswer(input)) {
                         writer.print("Правильно!");
                     } else {
                         writer.print("Увы, но это не так.");
@@ -46,13 +40,14 @@ public class Game implements ISubscriber {
                     writer.print("Неправильный ответ!");
                     writer.print("Правильный ответ - " + currentTask.getRightAnswer());
                 }
+                currentTask = extractor.getRandomTask();
+                printTask();
             }
         }
     }
 
     private void printHelp() {
-        List<String> strings = new ArrayList<>();
-        File file = new File("resources/help.txt");
+        File file = new File(path);
         try {
             FileReader fileReader = new FileReader(file);
             BufferedReader lineReader = new BufferedReader(fileReader);
@@ -71,7 +66,7 @@ public class Game implements ISubscriber {
     }
 
     @Override
-    public void objectModified() {
-        continueGame();
+    public void objectModified(String data) {
+        continueGame(data);
     }
 }
