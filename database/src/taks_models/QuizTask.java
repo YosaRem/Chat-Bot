@@ -6,7 +6,7 @@ public class QuizTask implements Task {
     private final String question;
     private final String correctAnswer;
     private final List<String> incorrectAnswers;
-    private Map<Integer, String> options;
+    private final Map<Integer, String> options;
 
     public QuizTask(String question, String correctAnswer, List<String> incorrectAnswers) {
         this.question = question;
