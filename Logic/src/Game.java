@@ -1,4 +1,6 @@
 import publisher_subscriber.ISubscriber;
+import taks_models.QuizTask;
+import taks_models.QuizTaskValue;
 import taks_models.Task;
 import tasks_extractor.QuizTasksExtractor;
 
@@ -7,7 +9,7 @@ import java.io.*;
 public class Game implements ISubscriber {
     private QuizTasksExtractor extractor;
     private IWriter writer;
-    private Task currentTask;
+    private QuizTask currentTask;
     private String path;
 
     public Game(QuizTasksExtractor extractor, IWriter writer, String instructionsPath) {
@@ -18,9 +20,17 @@ public class Game implements ISubscriber {
 
     public void startGame() {
         printHelp();
-        currentTask = extractor.getRandomTask();
-        printTask();
+        try {
+            currentTask = extractor.getRandomTask();
+            printTask();
+        } catch (FileNotFoundException e) {
+            writer.print("Не получается считать задание из файла " + e.getMessage());
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     private void continueGame(String input) {
         switch (input) {
@@ -36,12 +46,19 @@ public class Game implements ISubscriber {
                         writer.print("Увы, но это не так.");
                         writer.print("Правильный ответ - " + currentTask.getRightAnswer());
                     }
-                } catch (NullPointerException | NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     writer.print("Неправильный ответ!");
                     writer.print("Правильный ответ - " + currentTask.getRightAnswer());
                 }
-                currentTask = extractor.getRandomTask();
-                printTask();
+                try {
+                    currentTask = extractor.getRandomTask();
+                    printTask();
+                } catch (FileNotFoundException e) {
+                    writer.print("Не получается считать задание из файла " + e.getMessage());
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -62,7 +79,7 @@ public class Game implements ISubscriber {
     }
 
     private void printTask() {
-        writer.print(currentTask.getTaskToString());
+        writer.print(new QuizTaskValue(currentTask).getDescription());
     }
 
     @Override

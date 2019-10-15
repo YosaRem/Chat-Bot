@@ -21,33 +21,26 @@ public class QuizTasksExtractor implements Extractor {
         amountFiles = Objects.requireNonNull(new File(pathTasks).listFiles()).length;
     }
 
-    public Task getRandomTask() {
+    public QuizTask getRandomTask() throws IOException {
         Random rnd = new Random();
         List<String> strings = getTaskStringsFromFile(rnd.nextInt(amountFiles));
         return taskConstructor(strings);
     }
 
-    private List<String> getTaskStringsFromFile(Integer fileNumber) {
+    private List<String> getTaskStringsFromFile(Integer fileNumber) throws IOException {
         List<String> strings = new ArrayList<>();
-        try {
-            File file = new File(pathTasks + "//" + fileNumber + ".txt");
-            FileReader fileReader = new FileReader(file);
-            BufferedReader lineReader = new BufferedReader(fileReader);
-            String line = lineReader.readLine();
-            while (line != null && strings.size()<5) {
-                strings.add(line);
-                line = lineReader.readLine();
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("Не получается считать задание из файла " + e.getMessage());
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        File file = new File(pathTasks + "//" + fileNumber + ".txt");
+        FileReader fileReader = new FileReader(file);
+        BufferedReader lineReader = new BufferedReader(fileReader);
+        String line = lineReader.readLine();
+        while (line != null && strings.size() < 5) {
+            strings.add(line);
+            line = lineReader.readLine();
         }
         return strings;
     }
 
-    private Task taskConstructor(List<String> strings) {
+    private QuizTask taskConstructor(List<String> strings) {
         return new QuizTask(strings.get(QUESTION.getIndex()), strings.get(CORRECT.getIndex()),
                 strings.subList(CORRECT.getIndex() + 1, strings.size()));
     }

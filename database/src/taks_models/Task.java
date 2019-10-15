@@ -6,5 +6,4 @@ public interface Task {
     String getRightAnswer();
     boolean checkAnswer(String inputtedValue);
     Map<Integer, String> mix();
-    String getTaskToString();
 }

@@ -22,7 +22,12 @@ public class QuizTask implements Task {
 
     @Override
     public boolean checkAnswer(String inputtedValue) {
-        return options.get(Integer.parseInt(inputtedValue)).equals(correctAnswer);
+        try {
+            return options.get(Integer.parseInt(inputtedValue)).equals(correctAnswer);
+        } catch (NullPointerException e) {
+            return false;
+        }
+
     }
 
     public Map<Integer, String> getOptions() {
@@ -43,10 +48,5 @@ public class QuizTask implements Task {
             result.put(i, incAnswers.get(i - 1));
         }
         return result;
-    }
-
-    @Override
-    public String getTaskToString() {
-        return new QuizTaskValue(this).getDescription();
     }
 }
