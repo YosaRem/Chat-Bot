@@ -45,12 +45,9 @@ class QuizTests {
     void EqualsAnswersAfterMix() {
         QuizTask task = getTask();
         String[] answers1 = task.getOptions().values().toArray(new String[0]).clone();
-        task.mix();
-        String[] answers2 = task.getOptions().values().toArray(new String[0]).clone();
-        System.out.println(Arrays.toString(answers1));
-
-        System.out.println(Arrays.toString(answers2));
-        assertTrue(answers1 == answers2);
+        Collection<String> answers2 = task.mix().values();
+        assertTrue(answers2.containsAll(Arrays.asList(answers1)));
+        assertTrue(Arrays.asList(answers1).containsAll(answers2));
     }
 
     private QuizTask getTask() {

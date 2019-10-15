@@ -34,7 +34,7 @@ public class QuizTasksExtractor implements Extractor {
             FileReader fileReader = new FileReader(file);
             BufferedReader lineReader = new BufferedReader(fileReader);
             String line = lineReader.readLine();
-            while (line != null) {
+            while (line != null && strings.size()<5) {
                 strings.add(line);
                 line = lineReader.readLine();
             }

@@ -1,5 +1,5 @@
 question
-correct
+correctAnswer
 answ1
 answ2
 answ3
