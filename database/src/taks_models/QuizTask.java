@@ -27,7 +27,6 @@ public class QuizTask implements Task {
         } catch (NullPointerException e) {
             return false;
         }
-
     }
 
     public Map<Integer, String> getOptions() {
