@@ -1,7 +1,6 @@
 import publisher_subscriber.ISubscriber;
 import taks_models.QuizTask;
 import taks_models.QuizTaskValue;
-import taks_models.Task;
 import tasks_extractor.QuizTasksExtractor;
 
 import java.io.*;
