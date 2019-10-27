@@ -1,3 +1,5 @@
+package game;
+
 public class Level {
     private int amount;
     private final int[] variants = new int[]{500, 1000, 2000, 3000, 5000, 10000, 15000,
@@ -13,6 +15,10 @@ public class Level {
     }
 
     public int getAmount() {
+        return amount;
+    }
+
+    public int getScore() {
         return variants[amount];
     }
 }

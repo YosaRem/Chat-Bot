@@ -22,6 +22,15 @@ public class LineReader implements IReader {
         return data;
     }
 
+    public String getDataToLine() {
+        StringBuilder sb = new StringBuilder();
+        for (String str : data) {
+            sb.append(str);
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
     @Override
     public void read() throws IOException {
         FileReader fileReader = new FileReader(this.file);

@@ -1,5 +1,8 @@
+import game.Game;
 import readers.*;
 import tasks_extractor.QuizTasksExtractor;
+import writers.ConsoleWriter;
+import writers.IWriter;
 
 import java.io.IOException;
 

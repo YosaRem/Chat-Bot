@@ -1,7 +1,11 @@
+package game;
+
 import publisher_subscriber.ISubscriber;
+import readers.LineReader;
 import taks_models.QuizTask;
 import taks_models.QuizTaskValue;
 import tasks_extractor.QuizTasksExtractor;
+import writers.IWriter;
 
 import java.io.*;
 
@@ -20,7 +24,7 @@ public class Game implements ISubscriber {
     public void startGame() {
         printHelp();
         try {
-            currentTask = extractor.getRandomTask();
+            currentTask = extractor.getRandomTask(new Level());
             printTask();
         } catch (FileNotFoundException e) {
             writer.print("Не получается считать задание из файла " + e.getMessage());
@@ -50,7 +54,7 @@ public class Game implements ISubscriber {
                     writer.print("Правильный ответ - " + currentTask.getRightAnswer());
                 }
                 try {
-                    currentTask = extractor.getRandomTask();
+                    currentTask = extractor.getRandomTask(new Level());
                     printTask();
                 } catch (FileNotFoundException e) {
                     writer.print("Не получается считать задание из файла " + e.getMessage());
@@ -65,13 +69,9 @@ public class Game implements ISubscriber {
     private void printHelp() {
         File file = new File(path);
         try {
-            FileReader fileReader = new FileReader(file);
-            BufferedReader lineReader = new BufferedReader(fileReader);
-            String line = lineReader.readLine();
-            while (line != null) {
-                writer.print(line);
-                line = lineReader.readLine();
-            }
+            LineReader lineReader = new LineReader(file);
+            lineReader.read();
+            writer.print(lineReader.getDataToLine());
         } catch (IOException e) {
             e.printStackTrace();
         }
