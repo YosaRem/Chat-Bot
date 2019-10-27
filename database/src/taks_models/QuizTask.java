@@ -15,6 +15,14 @@ public class QuizTask implements Task {
         this.options = mix();
     }
 
+    public String getQuestion() {
+        return question;
+    }
+
+    public Map<Integer, String> getOptions() {
+        return options;
+    }
+
     @Override
     public String getRightAnswer() {
         return correctAnswer;
@@ -29,16 +37,7 @@ public class QuizTask implements Task {
         }
     }
 
-    public Map<Integer, String> getOptions() {
-        return options;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    @Override
-    public Map<Integer, String> mix() {
+    private Map<Integer, String> mix() {
         Map<Integer, String> result = new HashMap<>();
         ArrayList<String> incAnswers = new ArrayList<>(incorrectAnswers);
         incAnswers.add(correctAnswer);

@@ -1,4 +1,7 @@
+import readers.*;
 import tasks_extractor.QuizTasksExtractor;
+
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
@@ -8,7 +11,12 @@ public class Main {
         IReader reader = new ConsoleReader(game, System.in);
         game.startGame();
         while (true) {
-            reader.read();
+            try {
+                reader.read();
+            } catch (IOException e) {
+                writer.print(e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 }

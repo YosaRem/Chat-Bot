@@ -1,3 +1,5 @@
+package readers;
+
 import publisher_subscriber.ISubscriber;
 
 import java.io.InputStream;
