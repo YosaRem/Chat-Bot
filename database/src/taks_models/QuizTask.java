@@ -37,12 +37,20 @@ public class QuizTask implements Task {
         }
     }
 
+    public QuizTask deleteTwoIncorrectAnswer() {
+        QuizTask task = new QuizTask(question,
+                correctAnswer,
+                incorrectAnswers.subList(0, incorrectAnswers.size() - 2)
+        );
+        return task;
+    }
+
     private Map<Integer, String> mix() {
         Map<Integer, String> result = new HashMap<>();
         ArrayList<String> incAnswers = new ArrayList<>(incorrectAnswers);
         incAnswers.add(correctAnswer);
         Collections.shuffle(incAnswers);
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i <= incAnswers.size(); i++) {
             result.put(i, incAnswers.get(i - 1));
         }
         return result;

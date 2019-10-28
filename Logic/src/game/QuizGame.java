@@ -49,4 +49,9 @@ public class QuizGame {
     public String getRightAnswer() {
         return currentTask.getRightAnswer();
     }
+
+    public QuizTask deleteTwoIncorrectAnswers() {
+        currentTask = currentTask.deleteTwoIncorrectAnswer();
+        return currentTask;
+    }
 }

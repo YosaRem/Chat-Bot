@@ -37,8 +37,18 @@ public class QuizLogic implements ISubscriber {
                 break;
             }
             case "/scores": {
+                writer.print("Игрок - " + player.getName());
                 writer.print("Ваш уровень - " + game.getLevel());
                 writer.print("Ваши очки - " + player.getScore());
+                break;
+            }
+            case "/del": {
+                if (player.useOnlyTwoAnswer()) {
+                    QuizTask task = game.deleteTwoIncorrectAnswers();
+                    printTask(task);
+                } else {
+                    writer.print("Вы уже использовали эту возможность");
+                }
                 break;
             }
             default: {
@@ -62,7 +72,7 @@ public class QuizLogic implements ISubscriber {
         }
         writer.print("Увы, но это не так.");
         writer.print("Правильный ответ - " + game.getRightAnswer());
-        player.resetToZero();
+        player.makeMistake();
         game.playerMadeMistake();
         return false;
     }
