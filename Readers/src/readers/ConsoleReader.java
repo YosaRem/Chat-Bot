@@ -21,7 +21,9 @@ public class ConsoleReader implements IReader {
         if (scanner.hasNextLine()) {
             consoleInput = scanner.nextLine();
         }
-        subscriber.objectModified(consoleInput);
+        if (subscriber.isSubscriberReady()) {
+            subscriber.objectModified(consoleInput);
+        }
         return consoleInput;
     }
 }
