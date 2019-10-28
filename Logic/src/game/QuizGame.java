@@ -26,16 +26,24 @@ public class QuizGame {
         return level;
     }
 
-    public int getScore() {
+    public int getTaskPrice() {
         return variants[level];
     }
 
     public void playerMadeMistake() {
+        level = 0;
+    }
 
+    public boolean checkAnswer(String answer) {
+        return currentTask.checkAnswer(answer);
     }
 
     public QuizTask getTask() throws IOException {
         currentTask = extractor.getRandomTaskConsiderLevel(level);
         return currentTask;
+    }
+
+    public String getRightAnswer() {
+        return currentTask.getRightAnswer();
     }
 }

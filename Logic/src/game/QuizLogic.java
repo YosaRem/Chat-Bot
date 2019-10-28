@@ -13,25 +13,20 @@ public class QuizLogic implements ISubscriber {
     private QuizGame game;
     private IWriter writer;
     private String path;
+    private boolean isSubscriberReady;
 
     public QuizLogic(IWriter writer, Player player, QuizGame game, String instructionsPath) {
         this.writer = writer;
         this.player = player;
         this.game = game;
         this.path = instructionsPath;
+        this.isSubscriberReady = false;
     }
 
     public void startGame() {
         printHelp();
-        try {
-            QuizTask task = game.getTask();
-            printTask(task);
-        } catch (FileNotFoundException e) {
-            writer.print("Не получается считать задание из файла " + e.getMessage());
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        declaimTask();
+        isSubscriberReady = true;
     }
 
 
@@ -41,28 +36,35 @@ public class QuizLogic implements ISubscriber {
                 printHelp();
                 break;
             }
+            case "/scores": {
+                break;
+            }
             default: {
                 try {
-                    if (currentTask.checkAnswer(input)) {
+                    if (game.checkAnswer(input)) {
                         writer.print("Правильно!");
                     } else {
                         writer.print("Увы, но это не так.");
-                        writer.print("Правильный ответ - " + currentTask.getRightAnswer());
+                        writer.print("Правильный ответ - " + game.getRightAnswer());
                     }
                 } catch (NumberFormatException e) {
-                    writer.print("Неправильный ответ!");
-                    writer.print("Правильный ответ - " + currentTask.getRightAnswer());
+                    writer.print("Ответ введён неверно. Попробуйте ещё раз.");
+                    return;
                 }
-                try {
-                    currentTask = extractor.getRandomTask(new QuizGame());
-                    printTask();
-                } catch (FileNotFoundException e) {
-                    writer.print("Не получается считать задание из файла " + e.getMessage());
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                declaimTask();
             }
+        }
+    }
+
+    private void declaimTask() {
+        try {
+            QuizTask task = game.getTask();
+            printTask(task);
+        } catch (FileNotFoundException e) {
+            writer.print("Не получается считать задание из файла " + e.getMessage());
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -88,6 +90,6 @@ public class QuizLogic implements ISubscriber {
 
     @Override
     public boolean isSubscriberReady() {
-        return false;
+        return isSubscriberReady;
     }
 }
