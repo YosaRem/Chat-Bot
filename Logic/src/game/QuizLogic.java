@@ -39,19 +39,11 @@ public class QuizLogic implements ISubscriber {
             case "/scores": {
                 writer.print("Ваш уровень - " + game.getLevel());
                 writer.print("Ваши очки - " + player.getScore());
+                break;
             }
             default: {
                 try {
-                    if (game.checkAnswer(input)) {
-                        writer.print("Правильно!");
-                        player.increaseScore(game.getTaskPrice());
-                        game.incrementLevel();
-                    } else {
-                        writer.print("Увы, но это не так.");
-                        writer.print("Правильный ответ - " + game.getRightAnswer());
-                        player.resetToZero();
-                        game.playerMadeMistake();
-                    }
+                    checkInputAnswer(input);
                 } catch (NumberFormatException e) {
                     writer.print("Ответ введён неверно. Попробуйте ещё раз.");
                     return;
@@ -59,6 +51,20 @@ public class QuizLogic implements ISubscriber {
                 declaimTask();
             }
         }
+    }
+
+    private boolean checkInputAnswer(String value) {
+        if (game.checkAnswer(value)) {
+            writer.print("Правильно!");
+            player.increaseScore(game.getTaskPrice());
+            game.incrementLevel();
+            return true;
+        }
+        writer.print("Увы, но это не так.");
+        writer.print("Правильный ответ - " + game.getRightAnswer());
+        player.resetToZero();
+        game.playerMadeMistake();
+        return false;
     }
 
     private void declaimTask() {
