@@ -4,28 +4,28 @@ import publisher_subscriber.ISubscriber;
 import readers.LineReader;
 import taks_models.QuizTask;
 import taks_models.QuizTaskValue;
-import tasks_extractor.QuizTasksExtractor;
 import writers.IWriter;
 
 import java.io.*;
 
-public class Game implements ISubscriber {
-    private QuizTasksExtractor extractor;
+public class QuizLogic implements ISubscriber {
+    private Player player;
+    private QuizGame game;
     private IWriter writer;
-    private QuizTask currentTask;
     private String path;
 
-    public Game(QuizTasksExtractor extractor, IWriter writer, String instructionsPath) {
-        this.extractor = extractor;
+    public QuizLogic(IWriter writer, Player player, QuizGame game, String instructionsPath) {
         this.writer = writer;
+        this.player = player;
+        this.game = game;
         this.path = instructionsPath;
     }
 
     public void startGame() {
         printHelp();
         try {
-            currentTask = extractor.getRandomTask(new Level());
-            printTask();
+            QuizTask task = game.getTask();
+            printTask(task);
         } catch (FileNotFoundException e) {
             writer.print("Не получается считать задание из файла " + e.getMessage());
             e.printStackTrace();
@@ -54,7 +54,7 @@ public class Game implements ISubscriber {
                     writer.print("Правильный ответ - " + currentTask.getRightAnswer());
                 }
                 try {
-                    currentTask = extractor.getRandomTask(new Level());
+                    currentTask = extractor.getRandomTask(new QuizGame());
                     printTask();
                 } catch (FileNotFoundException e) {
                     writer.print("Не получается считать задание из файла " + e.getMessage());
@@ -77,12 +77,17 @@ public class Game implements ISubscriber {
         }
     }
 
-    private void printTask() {
-        writer.print(new QuizTaskValue(currentTask).getDescription());
+    private void printTask(QuizTask task) {
+        writer.print(new QuizTaskValue(task).getDescription());
     }
 
     @Override
     public void objectModified(String data) {
         continueGame(data);
+    }
+
+    @Override
+    public boolean isSubscriberReady() {
+        return false;
     }
 }
