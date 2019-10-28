@@ -1,17 +1,17 @@
 package readers;
 
+import publisher_subscriber.IPublisher;
 import publisher_subscriber.ISubscriber;
 
 import java.io.InputStream;
 import java.util.Scanner;
 
-public class ConsoleReader implements IReader {
+public class ConsoleReader implements IReader, IPublisher {
     private ISubscriber subscriber;
     private InputStream in;
 
-    public ConsoleReader(ISubscriber subscriber, InputStream in) {
+    public ConsoleReader(InputStream in) {
         this.in=in;
-        this.subscriber = subscriber;
     }
 
     @Override
@@ -21,9 +21,16 @@ public class ConsoleReader implements IReader {
         if (scanner.hasNextLine()) {
             consoleInput = scanner.nextLine();
         }
-        if (subscriber.isSubscriberReady()) {
-            subscriber.objectModified(consoleInput);
+        if (subscriber != null) {
+            if (subscriber.isSubscriberReady()) {
+                subscriber.objectModified(consoleInput);
+            }
         }
         return consoleInput;
+    }
+
+    @Override
+    public void subscribe(ISubscriber subscriber) {
+        this.subscriber = subscriber;
     }
 }
