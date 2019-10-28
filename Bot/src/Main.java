@@ -7,8 +7,6 @@ import tasks_extractor.QuizTasksExtractor;
 import writers.ConsoleWriter;
 import writers.IWriter;
 
-import java.io.IOException;
-
 public class Main {
     public static void main(String[] args) {
         QuizTasksExtractor extractor = new QuizTasksExtractor("resources/questions");

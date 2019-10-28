@@ -37,15 +37,20 @@ public class QuizLogic implements ISubscriber {
                 break;
             }
             case "/scores": {
-                break;
+                writer.print("Ваш уровень - " + game.getLevel());
+                writer.print("Ваши очки - " + player.getScore());
             }
             default: {
                 try {
                     if (game.checkAnswer(input)) {
                         writer.print("Правильно!");
+                        player.increaseScore(game.getTaskPrice());
+                        game.incrementLevel();
                     } else {
                         writer.print("Увы, но это не так.");
                         writer.print("Правильный ответ - " + game.getRightAnswer());
+                        player.resetToZero();
+                        game.playerMadeMistake();
                     }
                 } catch (NumberFormatException e) {
                     writer.print("Ответ введён неверно. Попробуйте ещё раз.");
