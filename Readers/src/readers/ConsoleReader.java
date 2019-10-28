@@ -15,12 +15,13 @@ public class ConsoleReader implements IReader {
     }
 
     @Override
-    public void read() {
+    public String read() {
         Scanner scanner = new Scanner(in);
         String consoleInput = "";
         if (scanner.hasNextLine()) {
             consoleInput = scanner.nextLine();
         }
         subscriber.objectModified(consoleInput);
+        return consoleInput;
     }
 }

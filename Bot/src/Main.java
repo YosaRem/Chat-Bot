@@ -1,4 +1,6 @@
 import game.Game;
+import game.Player;
+import game.PlayerCreator;
 import readers.*;
 import tasks_extractor.QuizTasksExtractor;
 import writers.ConsoleWriter;
@@ -12,6 +14,7 @@ public class Main {
         IWriter writer = new ConsoleWriter();
         Game game = new Game(extractor, writer, "resources/help.txt");
         IReader reader = new ConsoleReader(game, System.in);
+        Player player = new PlayerCreator(reader, writer).cratePlayerFromInput();
         game.startGame();
         while (true) {
             try {
