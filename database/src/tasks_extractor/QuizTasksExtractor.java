@@ -1,8 +1,9 @@
 package tasks_extractor;
 
 import readers.LineReader;
-import game.Level;
+import game.QuizGame;
 import taks_models.QuizTask;
+import taks_models.Task;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,9 +21,9 @@ public class QuizTasksExtractor implements Extractor {
         this.path = path;
     }
 
-    public QuizTask getRandomTask(Level level) throws IOException {
+    public QuizTask getRandomTaskConsiderLevel(int level) throws IOException {
         Random rnd = new Random();
-        String dirPath = this.path + "//" + level.getAmount();
+        String dirPath = this.path + "//" + level;
         int amountFiles = Objects.requireNonNull(new File(dirPath).list()).length;
         ArrayList<String> strings = getTaskStringsFromFile(rnd.nextInt(amountFiles), dirPath);
         return taskConstructor(strings);

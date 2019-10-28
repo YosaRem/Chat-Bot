@@ -1,4 +1,4 @@
-import game.Game;
+import game.QuizLogic;
 import game.Player;
 import game.PlayerCreator;
 import readers.*;
@@ -12,10 +12,10 @@ public class Main {
     public static void main(String[] args) {
         QuizTasksExtractor extractor = new QuizTasksExtractor("resources/questions");
         IWriter writer = new ConsoleWriter();
-        Game game = new Game(extractor, writer, "resources/help.txt");
-        IReader reader = new ConsoleReader(game, System.in);
+        QuizLogic quizLogic = new QuizLogic(extractor, writer, "resources/help.txt");
+        IReader reader = new ConsoleReader(quizLogic, System.in);
         Player player = new PlayerCreator(reader, writer).cratePlayerFromInput();
-        game.startGame();
+        quizLogic.startGame();
         while (true) {
             try {
                 reader.read();
