@@ -32,11 +32,12 @@ public class LineReader implements IReader {
     }
 
     @Override
-    public void read() throws IOException {
+    public String read() throws IOException {
         FileReader fileReader = new FileReader(this.file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         while (bufferedReader.ready() && this.data.size() < this.count) {
             this.data.add(bufferedReader.readLine());
         }
+        return "";
     }
 }
