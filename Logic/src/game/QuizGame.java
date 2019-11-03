@@ -18,7 +18,7 @@ public class QuizGame {
     }
 
     public void incrementLevel() {
-        if (level < variants.length){
+        if (level < variants.length - 1) {
             level++;
         } else {
             level = 0;
