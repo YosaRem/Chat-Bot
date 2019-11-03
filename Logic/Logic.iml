@@ -11,5 +11,6 @@
     <orderEntry type="module" module-name="database" />
     <orderEntry type="module" module-name="Readers" />
     <orderEntry type="module" module-name="Writer" />
+    <orderEntry type="library" name="telegrambots-4.4.0-jar-with-dependencies" level="project" />
   </component>
 </module>
