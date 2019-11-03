@@ -29,12 +29,8 @@ public class QuizTask implements Task {
     }
 
     @Override
-    public boolean checkAnswer(String inputtedValue) {
-        try {
-            return options.get(Integer.parseInt(inputtedValue)).equals(correctAnswer);
-        } catch (NullPointerException e) {
-            return false;
-        }
+    public boolean checkAnswer(Integer inputtedValue) {
+        return options.get(inputtedValue).equals(correctAnswer);
     }
 
     public QuizTask deleteTwoIncorrectAnswer() {

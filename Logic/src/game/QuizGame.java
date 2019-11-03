@@ -37,7 +37,7 @@ public class QuizGame {
         level = 0;
     }
 
-    public boolean checkAnswer(String answer) {
+    public boolean checkAnswer(Integer answer) {
         return currentTask.checkAnswer(answer);
     }
 

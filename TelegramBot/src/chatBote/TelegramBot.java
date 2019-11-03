@@ -1,8 +1,10 @@
 package chatBote;
 
+import game.Player;
+import game.QuizGame;
+import game.QuizLogic;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -11,6 +13,7 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -18,45 +21,49 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-//import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import publisher_subscriber.IPublisher;
 import publisher_subscriber.ISubscriber;
 import readers.IReader;
+import tasks_extractor.QuizTasksExtractor;
+import writers.IWriter;
+import writers.TelegramWriter;
 
-//import static java.awt.DefaultKeyboardFocusManager.sendMessage;
 
 public class TelegramBot extends TelegramLongPollingBot implements IReader, IPublisher {
     private ISubscriber subscriber;
+    private QuizTasksExtractor extractor;
+    private HashMap<String, ISubscriber> Subscribers;
 
+    public TelegramBot(QuizTasksExtractor extractor) {
+        this.extractor = extractor;
+        Subscribers = new HashMap<>();
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
         String message = update.getMessage().getText();
-        System.out.println(update.getMessage().getDate() + " " + update.getMessage().getChatId().toString());
-        System.out.println(update.getMessage().getChat().getFirstName() + ": " + message);
-        /*if (update.getMessage().getChatId() == 531962827) {
-            sendMsg(update.getMessage().getChatId().toString(), "Бот доступен только для админа \nОн все  видит");
-            return;
-        }
-        if (update.getMessage().getChatId() == 665600203) {
-            sendMsg(update.getMessage().getChatId().toString(), "Временно недоступен");
-        } else if (message.equals("/start")) {
-            sendMsg(update.getMessage().getChatId().toString(), "Hello, " + update.getMessage().getChat().getFirstName());
-        } else sendMsg(update.getMessage().getChatId().toString(), message);*/
-        if (update.getMessage().getChatId() == 665600204) {
-            sendMsg(update.getMessage().getChatId().toString(), "ИДЗ не скоро, коллоквиум скоро");
-            return;
-        }
-        if (subscriber != null) {
-            if (subscriber.isSubscriberReady()) {
-                subscriber.objectModified(message);
+        String chatId = update.getMessage().getChatId().toString();
+        String firstName = update.getMessage().getChat().getFirstName();
+        printToConsole(update, chatId, firstName, message);
+        ISubscriber currentSubscriber = Subscribers.get(chatId);
+        if (currentSubscriber != null) {
+            if (currentSubscriber.isSubscriberReady()) {
+                currentSubscriber.objectModified(message);
             }
+        } else {
+            ISubscriber game = createGame(chatId, firstName);
+            Subscribers.put(chatId, game);
         }
     }
 
-    public String getMessgeText(String message) {
-        return message;
+    private ISubscriber createGame(String chatId, String firstName) {
+        IWriter writer = new TelegramWriter(this, chatId);
+        QuizGame game = new QuizGame(extractor);
+        Player player = new Player(firstName);
+        QuizLogic quizLogic = new QuizLogic(writer, player, game, "resources/help.txt");
+        quizLogic.startGame();
+        return quizLogic;
     }
 
     public synchronized void sendMsg(String chatId, String s) {
@@ -73,37 +80,30 @@ public class TelegramBot extends TelegramLongPollingBot implements IReader, IPub
         }
     }
 
-    public synchronized void setButtons(SendMessage sendMessage) {
-        // Создаем клавиуатуру
+    private void printToConsole(Update update, String chatId, String firstName, String message) {
+        System.out.println(update.getMessage().getDate() + " " + chatId);
+        System.out.println(firstName + ": " + message);
+    }
+
+    private synchronized void setButtons(SendMessage sendMessage) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(false);
-
-        // Создаем список строк клавиатуры
         List<KeyboardRow> keyboard = new ArrayList<>();
-
-        // Первая строчка клавиатуры
         KeyboardRow keyboardARow = new KeyboardRow();
-        // Добавляем кнопки в первую строчку клавиатуры
-        keyboardARow.add(new KeyboardButton("1"));
-
-        // Вторая строчка клавиатуры
         KeyboardRow keyboardBRow = new KeyboardRow();
-        // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardBRow.add(new KeyboardButton("2"));
         KeyboardRow keyboardCRow = new KeyboardRow();
-        keyboardCRow.add(new KeyboardButton("3"));
         KeyboardRow keyboardDRow = new KeyboardRow();
+        keyboardARow.add(new KeyboardButton("1"));
+        keyboardBRow.add(new KeyboardButton("2"));
+        keyboardCRow.add(new KeyboardButton("3"));
         keyboardDRow.add(new KeyboardButton("4"));
-
-        // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardARow);
         keyboard.add(keyboardBRow);
         keyboard.add(keyboardCRow);
         keyboard.add(keyboardDRow);
-        // и устанваливаем этот список нашей клавиатуре
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 

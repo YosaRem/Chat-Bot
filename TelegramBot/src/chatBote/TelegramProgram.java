@@ -26,20 +26,12 @@ import writers.TelegramWriter;
 
 public class TelegramProgram {
     public static void main(String[] args) {
-        ApiContextInitializer.init(); // Инициализируем апи
+        ApiContextInitializer.init();
         TelegramBotsApi botapi = new TelegramBotsApi();
         QuizTasksExtractor extractor = new QuizTasksExtractor("resources/questions");
-        QuizGame game = new QuizGame(extractor);
         try {
-            TelegramBot bot = new TelegramBot();
+            TelegramBot bot = new TelegramBot(extractor);
             botapi.registerBot(bot);
-            IWriter writer = new TelegramWriter(bot,"531962828");
-            //ConsoleReader reader = new ConsoleReader(System.in);
-            Player player = new Player("Danil");
-            QuizLogic quizLogic = new QuizLogic(writer, player, game, "resources/help.txt");
-            bot.subscribe(quizLogic);
-            quizLogic.startGame();
-
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
