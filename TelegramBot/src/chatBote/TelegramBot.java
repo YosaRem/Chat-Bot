@@ -50,6 +50,11 @@ public class TelegramBot extends TelegramLongPollingBot implements IReader, IPub
         if (currentSubscriber != null) {
             if (currentSubscriber.isSubscriberReady()) {
                 currentSubscriber.objectModified(message);
+                /*Runnable r = () -> {
+
+                };
+                Thread th = new Thread(r);
+                th.start();*/
             }
         } else {
             ISubscriber game = createGame(chatId, firstName);
@@ -83,6 +88,7 @@ public class TelegramBot extends TelegramLongPollingBot implements IReader, IPub
     private void printToConsole(Update update, String chatId, String firstName, String message) {
         System.out.println(update.getMessage().getDate() + " " + chatId);
         System.out.println(firstName + ": " + message);
+        System.out.println(Subscribers.size());
     }
 
     private synchronized void setButtons(SendMessage sendMessage) {
