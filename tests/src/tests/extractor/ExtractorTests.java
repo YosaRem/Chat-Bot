@@ -12,21 +12,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ExtractorTests {
     private static final String goodPath = "test_files/good";
-    private static final String badPath = "test_files/bad";
 
     @Test
     void readingFromCorrectFile() throws IOException {
         QuizTasksExtractor qt = new QuizTasksExtractor(goodPath);
-        QuizTask task = (QuizTask) qt.getRandomTaskConsiderLevel(1);
-        String[] mustAnsw = new String[]{"answ1", "answ2", "answ3", "correctAnswer"};
-        assertEquals(task.getRightAnswer(), "correctAnswer");
-        assertTrue(task.getOptions().values().containsAll(Arrays.asList(mustAnsw)));
+        QuizTask task = (QuizTask) qt.getRandomTaskConsiderLevel(0);
+        String[] mustAnswer = new String[]{"wrong 0", "wrong 0", "wrong 0", "CorrectAnswer 0"};
+        assertEquals(task.getRightAnswer(), "Question 0");
+        assertTrue(task.getOptions().values().containsAll(Arrays.asList(mustAnswer)));
     }
 
     @Test
     void moreLinesInFile() throws IOException {
         QuizTasksExtractor qt = new QuizTasksExtractor("test_files/moreLines");
-        QuizTask task = (QuizTask) qt.getRandomTaskConsiderLevel(1);
+        QuizTask task = (QuizTask) qt.getRandomTaskConsiderLevel(0);
         assertEquals(task.getRightAnswer(), "correctAnswer");
+        assertEquals(4, task.getOptions().size());
     }
 }
