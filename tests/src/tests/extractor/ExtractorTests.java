@@ -3,7 +3,6 @@ package tests.extractor;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import taks_models.QuizTask;
 
