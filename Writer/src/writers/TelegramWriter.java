@@ -6,8 +6,8 @@ public class TelegramWriter implements IWriter {
     private TelegramBot bot;
     private String userId;
 
-    public TelegramWriter(TelegramBot bot, String userId) {
-        this.bot = bot;
+    public TelegramWriter(TelegramBot telegramBot, String userId) {
+        bot = telegramBot;
         this.userId = userId;
     }
 
