@@ -1,5 +1,6 @@
-package tests;
+package tests.extractor;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Assertions;
@@ -15,24 +16,18 @@ class ExtractorTests {
     private static final String badPath = "test_files/bad";
 
     @Test
-    void readingFromCorrectFile() {
+    void readingFromCorrectFile() throws IOException {
         QuizTasksExtractor qt = new QuizTasksExtractor(goodPath);
-        QuizTask task = (QuizTask) qt.getRandomTask();
+        QuizTask task = (QuizTask) qt.getRandomTaskConsiderLevel(1);
         String[] mustAnsw = new String[]{"answ1", "answ2", "answ3", "correctAnswer"};
         assertEquals(task.getRightAnswer(), "correctAnswer");
         assertTrue(task.getOptions().values().containsAll(Arrays.asList(mustAnsw)));
     }
 
     @Test
-    void moreLinesInFile() {
+    void moreLinesInFile() throws IOException {
         QuizTasksExtractor qt = new QuizTasksExtractor("test_files/moreLines");
-        QuizTask task = (QuizTask) qt.getRandomTask();
+        QuizTask task = (QuizTask) qt.getRandomTaskConsiderLevel(1);
         assertEquals(task.getRightAnswer(), "correctAnswer");
-    }
-
-    @Test
-    void emptyFile() {
-        QuizTasksExtractor qt = new QuizTasksExtractor(badPath);
-        Assertions.assertThrows(IndexOutOfBoundsException.class, qt::getRandomTask);
     }
 }

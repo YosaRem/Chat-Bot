@@ -38,6 +38,7 @@ public class LineReader implements IReader {
         while (bufferedReader.ready() && this.data.size() < this.count) {
             this.data.add(bufferedReader.readLine());
         }
+        bufferedReader.close();
         return "";
     }
 }
