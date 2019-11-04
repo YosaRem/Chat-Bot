@@ -3,7 +3,6 @@ package tests.logic;
 import static org.junit.jupiter.api.Assertions.*;
 
 import game.QuizGame;
-import game.Player;
 import org.junit.jupiter.api.Test;
 import taks_models.QuizTask;
 import tasks_extractor.QuizTasksExtractor;
