@@ -1,4 +1,4 @@
-package tests;
+package tests.extractor;
 
 import org.junit.jupiter.api.Test;
 import taks_models.QuizTask;
@@ -26,19 +26,6 @@ class QuizTests {
         answers.add("correctAnswer");
         assertTrue(options.values().containsAll(answers));
         assertTrue(answers.containsAll(options.values()));
-    }
-
-    @Test
-    void checkCorrectAnswer() {
-        QuizTask task = getTask();
-        Map<Integer, String> options = task.getOptions();
-        Integer key = 0;
-        for (Map.Entry<Integer, String> pair : options.entrySet()) {
-            if (pair.getValue().equals("correctAnswer"))
-                key = pair.getKey();
-        }
-        assertEquals(task.getRightAnswer(), options.get(key));
-        assertTrue(task.checkAnswer(key.toString()));
     }
 
     @Test

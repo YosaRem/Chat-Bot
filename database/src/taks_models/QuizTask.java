@@ -41,7 +41,7 @@ public class QuizTask implements Task {
         return task;
     }
 
-    private Map<Integer, String> mix() {
+    public Map<Integer, String> mix() {
         Map<Integer, String> result = new HashMap<>();
         ArrayList<String> incAnswers = new ArrayList<>(incorrectAnswers);
         incAnswers.add(correctAnswer);
