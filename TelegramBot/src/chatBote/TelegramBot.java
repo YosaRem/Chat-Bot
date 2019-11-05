@@ -34,6 +34,8 @@ public class TelegramBot extends TelegramLongPollingBot implements IReader, IPub
     private ISubscriber subscriber;
     private QuizTasksExtractor extractor;
     private HashMap<String, ISubscriber> Subscribers;
+    private final String botName = "Millionare_chat_bot";
+    private final String token = "1055331641:AAHr8zihVZw7gWFvwNObGjVBAEiQ-cwkeiY";
 
     public TelegramBot(QuizTasksExtractor extractor) {
         this.extractor = extractor;
@@ -50,11 +52,6 @@ public class TelegramBot extends TelegramLongPollingBot implements IReader, IPub
         if (currentSubscriber != null) {
             if (currentSubscriber.isSubscriberReady()) {
                 currentSubscriber.objectModified(message);
-                /*Runnable r = () -> {
-
-                };
-                Thread th = new Thread(r);
-                th.start();*/
             }
         } else {
             ISubscriber game = createGame(chatId, firstName);
@@ -86,9 +83,10 @@ public class TelegramBot extends TelegramLongPollingBot implements IReader, IPub
     }
 
     private void printToConsole(Update update, String chatId, String firstName, String message) {
-        System.out.println(update.getMessage().getDate() + " " + chatId);
-        System.out.println(firstName + ": " + message);
-        System.out.println(Subscribers.size());
+        System.out.println("////////////////////////////////////////////////");
+        System.out.println(update.getMessage().getDate() + " id: " + chatId);
+        System.out.println("Player: " + firstName + ": " + message);
+        System.out.println("Amount of games: " + Subscribers.size());
     }
 
     private synchronized void setButtons(SendMessage sendMessage) {
@@ -98,29 +96,25 @@ public class TelegramBot extends TelegramLongPollingBot implements IReader, IPub
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(false);
         List<KeyboardRow> keyboard = new ArrayList<>();
-        KeyboardRow keyboardARow = new KeyboardRow();
-        KeyboardRow keyboardBRow = new KeyboardRow();
-        KeyboardRow keyboardCRow = new KeyboardRow();
-        KeyboardRow keyboardDRow = new KeyboardRow();
-        keyboardARow.add(new KeyboardButton("1"));
-        keyboardBRow.add(new KeyboardButton("2"));
-        keyboardCRow.add(new KeyboardButton("3"));
-        keyboardDRow.add(new KeyboardButton("4"));
-        keyboard.add(keyboardARow);
-        keyboard.add(keyboardBRow);
-        keyboard.add(keyboardCRow);
-        keyboard.add(keyboardDRow);
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
+        keyboardFirstRow.add(new KeyboardButton("1"));
+        keyboardFirstRow.add(new KeyboardButton("2"));
+        keyboardSecondRow.add(new KeyboardButton("3"));
+        keyboardSecondRow.add(new KeyboardButton("4"));
+        keyboard.add(keyboardFirstRow);
+        keyboard.add(keyboardSecondRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
     @Override
     public String getBotUsername() {
-        return "Millionare_chat_bot";
+        return botName;
     }
 
     @Override
     public String getBotToken() {
-        return "1055331641:AAHr8zihVZw7gWFvwNObGjVBAEiQ-cwkeiY";
+        return token;
     }
 
     @Override
