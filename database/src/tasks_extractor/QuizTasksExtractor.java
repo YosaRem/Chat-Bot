@@ -32,8 +32,7 @@ public class QuizTasksExtractor implements Extractor {
     private ArrayList<String> getTaskStringsFromFile(int fileNumber, String dirPath) throws IOException {
         File file = new File(dirPath + "//" + fileNumber + ".txt");
         LineReader lineReader = new LineReader(file, 5);
-        lineReader.read();
-        return lineReader.getData();
+        return lineReader.read();
     }
 
     private QuizTask taskConstructor(ArrayList<String> strings) {

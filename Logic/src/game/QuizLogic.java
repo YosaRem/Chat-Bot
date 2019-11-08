@@ -7,6 +7,7 @@ import taks_models.QuizTaskValue;
 import writers.IWriter;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class QuizLogic implements ISubscriber {
     private Player player;
@@ -90,9 +91,8 @@ public class QuizLogic implements ISubscriber {
     private void printHelp() {
         File file = new File(path);
         try {
-            LineReader lineReader = new LineReader(file);
-            lineReader.read();
-            writer.print(lineReader.getDataToLine());
+            ArrayList<String> lines = new LineReader(file).read();
+            writer.print(String.join("\n", lines));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -3,7 +3,7 @@ package readers;
 import java.io.*;
 import java.util.ArrayList;
 
-public class LineReader implements IReader {
+public class LineReader {
     private int count;
     private File file;
     private ArrayList<String> data;
@@ -18,27 +18,13 @@ public class LineReader implements IReader {
         this(file, Integer.MAX_VALUE);
     }
 
-    public ArrayList<String> getData() {
-        return data;
-    }
-
-    public String getDataToLine() {
-        StringBuilder sb = new StringBuilder();
-        for (String str : data) {
-            sb.append(str);
-            sb.append("\n");
-        }
-        return sb.toString();
-    }
-
-    @Override
-    public String read() throws IOException {
+    public ArrayList<String> read() throws IOException {
         FileReader fileReader = new FileReader(this.file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         while (bufferedReader.ready() && this.data.size() < this.count) {
             this.data.add(bufferedReader.readLine());
         }
         bufferedReader.close();
-        return "";
+        return (ArrayList<String>) data.clone();
     }
 }
