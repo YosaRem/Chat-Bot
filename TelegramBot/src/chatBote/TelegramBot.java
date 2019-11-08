@@ -42,9 +42,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             synchronized (subscribers) {
                 ISubscriber currentSubscriber = subscribers.get(chatId);
                 if (currentSubscriber != null) {
-                    if (currentSubscriber.isSubscriberReady()) {
-                        currentSubscriber.objectModified(text);
-                    }
+                    currentSubscriber.objectModified(text);
                 } else {
                     ISubscriber game = createGame(chatId, firstName);
                     subscribers.put(chatId, game);

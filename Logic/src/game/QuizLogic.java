@@ -70,8 +70,7 @@ public class QuizLogic implements ISubscriber {
             game.incrementLevel();
             return;
         }
-        writer.print("Увы, но это не так.");
-        writer.print("Правильный ответ - " + game.getRightAnswer());
+        writer.print("Увы, но это не так.\n" + "Правильный ответ - " + game.getRightAnswer());
         player.makeMistake();
         game.playerMadeMistake();
     }
@@ -104,11 +103,7 @@ public class QuizLogic implements ISubscriber {
 
     @Override
     public void objectModified(String data) {
-        continueGame(data);
-    }
-
-    @Override
-    public boolean isSubscriberReady() {
-        return isSubscriberReady;
+        if (isSubscriberReady)
+            continueGame(data);
     }
 }
