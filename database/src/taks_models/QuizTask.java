@@ -30,7 +30,9 @@ public class QuizTask implements Task {
 
     @Override
     public boolean checkAnswer(Integer inputtedValue) {
-        return options.get(inputtedValue).equals(correctAnswer);
+        if (inputtedValue > 0 && inputtedValue < incorrectAnswers.size() + 2)
+            return options.get(inputtedValue).equals(correctAnswer);
+        return false;
     }
 
     public QuizTask deleteTwoIncorrectAnswer() {
