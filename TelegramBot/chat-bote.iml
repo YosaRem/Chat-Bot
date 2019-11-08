@@ -7,10 +7,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="Publisher" />
+    <orderEntry type="library" name="wrapper" level="project" />
     <orderEntry type="module" module-name="database" />
-    <orderEntry type="module" module-name="Readers" />
+    <orderEntry type="module" module-name="Logic" />
     <orderEntry type="module" module-name="Writer" />
+    <orderEntry type="module" module-name="Readers" />
+    <orderEntry type="module" module-name="Publisher" />
     <orderEntry type="library" name="telegrambots-4.4.0-jar-with-dependencies" level="project" />
   </component>
 </module>

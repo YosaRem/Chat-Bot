@@ -18,7 +18,7 @@ public class QuizGame {
     }
 
     public void incrementLevel() {
-        if (level < variants.length){
+        if (level < variants.length - 1) {
             level++;
         } else {
             level = 0;
@@ -37,7 +37,7 @@ public class QuizGame {
         level = 0;
     }
 
-    public boolean checkAnswer(String answer) {
+    public boolean checkAnswer(Integer answer) {
         return currentTask.checkAnswer(answer);
     }
 
