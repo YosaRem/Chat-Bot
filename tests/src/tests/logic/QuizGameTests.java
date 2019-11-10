@@ -36,7 +36,7 @@ public class QuizGameTests {
                 break;
             }
         }
-        assertEquals(true, isCorrectAnswerFound);
+        assertTrue(isCorrectAnswerFound);
     }
 
     @Test

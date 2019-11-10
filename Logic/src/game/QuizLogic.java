@@ -7,6 +7,7 @@ import taks_models.QuizTaskValue;
 import writers.IWriter;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class QuizLogic implements ISubscriber {
     private Player player;
@@ -69,8 +70,7 @@ public class QuizLogic implements ISubscriber {
             game.incrementLevel();
             return;
         }
-        writer.print("Увы, но это не так.");
-        writer.print("Правильный ответ - " + game.getRightAnswer());
+        writer.print("Увы, но это не так.\n" + "Правильный ответ - " + game.getRightAnswer());
         player.makeMistake();
         game.playerMadeMistake();
     }
@@ -90,9 +90,8 @@ public class QuizLogic implements ISubscriber {
     private void printHelp() {
         File file = new File(path);
         try {
-            LineReader lineReader = new LineReader(file);
-            lineReader.read();
-            writer.print(lineReader.getDataToLine());
+            ArrayList<String> lines = new LineReader(file).read();
+            writer.print(String.join("\n", lines));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,11 +103,7 @@ public class QuizLogic implements ISubscriber {
 
     @Override
     public void objectModified(String data) {
-        continueGame(data);
-    }
-
-    @Override
-    public boolean isSubscriberReady() {
-        return isSubscriberReady;
+        if (isSubscriberReady)
+            continueGame(data);
     }
 }

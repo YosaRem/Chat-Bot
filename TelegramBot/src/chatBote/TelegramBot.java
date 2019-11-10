@@ -5,57 +5,49 @@ import game.QuizGame;
 import game.QuizLogic;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 
-import java.io.IOException;
 import java.util.*;
 
-import org.telegram.telegrambots.ApiContextInitializer;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.methods.send.SendSticker;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import publisher_subscriber.IPublisher;
 import publisher_subscriber.ISubscriber;
-import readers.IReader;
 import tasks_extractor.QuizTasksExtractor;
 import writers.IWriter;
 import writers.TelegramWriter;
 
 
-public class TelegramBot extends TelegramLongPollingBot implements IReader, IPublisher {
-    private ISubscriber subscriber;
+public class TelegramBot extends TelegramLongPollingBot {
     private QuizTasksExtractor extractor;
-    private HashMap<String, ISubscriber> Subscribers;
+    private final HashMap<String, ISubscriber> subscribers;
     private final String botName = "Millionare_chat_bot";
     private final String token = "1055331641:AAHr8zihVZw7gWFvwNObGjVBAEiQ-cwkeiY";
 
     public TelegramBot(QuizTasksExtractor extractor) {
         this.extractor = extractor;
-        Subscribers = new HashMap<>();
+        subscribers = new HashMap<>();
     }
 
     @Override
     public void onUpdateReceived(Update update) {
-        String message = update.getMessage().getText();
-        String chatId = update.getMessage().getChatId().toString();
-        String firstName = update.getMessage().getChat().getFirstName();
-        printToConsole(update, chatId, firstName, message);
-        ISubscriber currentSubscriber = Subscribers.get(chatId);
-        if (currentSubscriber != null) {
-            if (currentSubscriber.isSubscriberReady()) {
-                currentSubscriber.objectModified(message);
+        Message message = update.getMessage();
+        if (message != null && message.hasText()) {
+            String text = message.getText();
+            String chatId = message.getChatId().toString();
+            String firstName = message.getChat().getFirstName();
+            printToConsole(message.getDate(), chatId, firstName, text);
+            synchronized (subscribers) {
+                ISubscriber currentSubscriber = subscribers.get(chatId);
+                if (currentSubscriber != null) {
+                    currentSubscriber.objectModified(text);
+                } else {
+                    ISubscriber game = createGame(chatId, firstName);
+                    subscribers.put(chatId, game);
+                }
             }
-        } else {
-            ISubscriber game = createGame(chatId, firstName);
-            Subscribers.put(chatId, game);
         }
     }
 
@@ -82,11 +74,11 @@ public class TelegramBot extends TelegramLongPollingBot implements IReader, IPub
         }
     }
 
-    private void printToConsole(Update update, String chatId, String firstName, String message) {
+    private void printToConsole(Integer date, String chatId, String firstName, String message) {
         System.out.println("////////////////////////////////////////////////");
-        System.out.println(update.getMessage().getDate() + " id: " + chatId);
+        System.out.println(date + " id: " + chatId);
         System.out.println("Player: " + firstName + ": " + message);
-        System.out.println("Amount of games: " + Subscribers.size());
+        System.out.println("Amount of games: " + subscribers.size());
     }
 
     private synchronized void setButtons(SendMessage sendMessage) {
@@ -115,15 +107,5 @@ public class TelegramBot extends TelegramLongPollingBot implements IReader, IPub
     @Override
     public String getBotToken() {
         return token;
-    }
-
-    @Override
-    public String read() throws IOException {
-        return null;
-    }
-
-    @Override
-    public void subscribe(ISubscriber subscriber) {
-        this.subscriber = subscriber;
     }
 }

@@ -11,7 +11,7 @@ public class ConsoleReader implements IReader, IPublisher {
     private InputStream in;
 
     public ConsoleReader(InputStream in) {
-        this.in=in;
+        this.in = in;
     }
 
     @Override
@@ -22,9 +22,7 @@ public class ConsoleReader implements IReader, IPublisher {
             consoleInput = scanner.nextLine();
         }
         if (subscriber != null) {
-            if (subscriber.isSubscriberReady()) {
-                subscriber.objectModified(consoleInput);
-            }
+            subscriber.objectModified(consoleInput);
         }
         return consoleInput;
     }
