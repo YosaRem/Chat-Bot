@@ -10,7 +10,7 @@ import writers.TelegramWriter;
 
 import java.util.HashMap;
 
-public class TelegramBotLogic implements ISubscriber{
+public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
     private QuizTasksExtractor extractor;
     private final HashMap<String, ISubscriber> subscribers;
     private TelegramBot telegramBot;
@@ -30,19 +30,16 @@ public class TelegramBotLogic implements ISubscriber{
         return quizLogic;
     }
 
+
     @Override
-    public void objectModified(String data) {
-        String[] datas = data.split("_");
-        String text = datas[0];
-        String chatId = datas[1];
-        String firstName = datas[2];
+    public void objectModified(TelegramMesData data) {
         synchronized (subscribers) {
-            ISubscriber currentSubscriber = subscribers.get(chatId);
+            ISubscriber currentSubscriber = subscribers.get(data.chatId);
             if (currentSubscriber != null) {
-                currentSubscriber.objectModified(text);
+                currentSubscriber.objectModified(data.text);
             } else {
-                ISubscriber game = createGame(chatId, firstName);
-                subscribers.put(chatId, game);
+                ISubscriber game = createGame(data.chatId, data.name);
+                subscribers.put(data.chatId, game);
             }
         }
     }

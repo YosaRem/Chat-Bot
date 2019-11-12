@@ -9,7 +9,7 @@ import writers.IWriter;
 import java.io.*;
 import java.util.ArrayList;
 
-public class QuizLogic implements ISubscriber {
+public class QuizLogic implements ISubscriber<String> {
     private Player player;
     private QuizGame game;
     private IWriter writer;

@@ -1,5 +1,5 @@
 package publisher_subscriber;
 
-public interface ISubscriber {
-    void objectModified(String data);
+public interface ISubscriber<T> {
+    void objectModified(T data);
 }
