@@ -32,7 +32,7 @@ public class TelegramBotLogic implements ISubscriber{
 
     @Override
     public void objectModified(String data) {
-        String[] datas = data.split("|");
+        String[] datas = data.split("_");
         String text = datas[0];
         String chatId = datas[1];
         String firstName = datas[2];
