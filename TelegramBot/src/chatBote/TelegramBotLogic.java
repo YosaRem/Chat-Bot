@@ -9,6 +9,8 @@ import writers.IWriter;
 import writers.TelegramWriter;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
     private QuizTasksExtractor extractor;
@@ -30,6 +32,9 @@ public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
         return quizLogic;
     }
 
+    public Set<String> getGamesID() {
+        return subscribers.keySet();
+    }
 
     @Override
     public void objectModified(TelegramMesData data) {
