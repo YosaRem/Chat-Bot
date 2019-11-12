@@ -14,22 +14,18 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import publisher_subscriber.IPublisher;
 import publisher_subscriber.ISubscriber;
 import tasks_extractor.QuizTasksExtractor;
 import writers.IWriter;
 import writers.TelegramWriter;
 
 
-public class TelegramBot extends TelegramLongPollingBot {
-    private QuizTasksExtractor extractor;
-    private final HashMap<String, ISubscriber> subscribers;
+public class TelegramBot extends TelegramLongPollingBot implements IPublisher {
     private final String botName = "Millionare_chat_bot";
     private final String token = "1055331641:AAHr8zihVZw7gWFvwNObGjVBAEiQ-cwkeiY";
+    private ISubscriber telegramBotLogic;
 
-    public TelegramBot(QuizTasksExtractor extractor) {
-        this.extractor = extractor;
-        subscribers = new HashMap<>();
-    }
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -39,25 +35,8 @@ public class TelegramBot extends TelegramLongPollingBot {
             String chatId = message.getChatId().toString();
             String firstName = message.getChat().getFirstName();
             printToConsole(message.getDate(), chatId, firstName, text);
-            synchronized (subscribers) {
-                ISubscriber currentSubscriber = subscribers.get(chatId);
-                if (currentSubscriber != null) {
-                    currentSubscriber.objectModified(text);
-                } else {
-                    ISubscriber game = createGame(chatId, firstName);
-                    subscribers.put(chatId, game);
-                }
-            }
+            telegramBotLogic.objectModified(text + "|" + chatId + "|" + firstName);
         }
-    }
-
-    private ISubscriber createGame(String chatId, String firstName) {
-        IWriter writer = new TelegramWriter(this, chatId);
-        QuizGame game = new QuizGame(extractor);
-        Player player = new Player(firstName);
-        QuizLogic quizLogic = new QuizLogic(writer, player, game, "resources/help.txt");
-        quizLogic.startGame();
-        return quizLogic;
     }
 
     public synchronized void sendMsg(String chatId, String s) {
@@ -78,7 +57,6 @@ public class TelegramBot extends TelegramLongPollingBot {
         System.out.println("////////////////////////////////////////////////");
         System.out.println(date + " id: " + chatId);
         System.out.println("Player: " + firstName + ": " + message);
-        System.out.println("Amount of games: " + subscribers.size());
     }
 
     private synchronized void setButtons(SendMessage sendMessage) {
@@ -107,5 +85,10 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Override
     public String getBotToken() {
         return token;
+    }
+
+    @Override
+    public void subscribe(ISubscriber subscriber) {
+        telegramBotLogic = subscriber;
     }
 }

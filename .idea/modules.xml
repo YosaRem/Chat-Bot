@@ -7,9 +7,9 @@
       <module fileurl="file://$PROJECT_DIR$/Logic/Logic.iml" filepath="$PROJECT_DIR$/Logic/Logic.iml" />
       <module fileurl="file://$PROJECT_DIR$/Publisher/Publisher.iml" filepath="$PROJECT_DIR$/Publisher/Publisher.iml" />
       <module fileurl="file://$PROJECT_DIR$/Readers/Readers.iml" filepath="$PROJECT_DIR$/Readers/Readers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TelegramBot/TelegramBot.iml" filepath="$PROJECT_DIR$/TelegramBot/TelegramBot.iml" />
       <module fileurl="file://$PROJECT_DIR$/Threading_exp/Threading_exp.iml" filepath="$PROJECT_DIR$/Threading_exp/Threading_exp.iml" />
       <module fileurl="file://$PROJECT_DIR$/Writer/Writer.iml" filepath="$PROJECT_DIR$/Writer/Writer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/TelegramBot/chat-bote.iml" filepath="$PROJECT_DIR$/TelegramBot/chat-bote.iml" />
       <module fileurl="file://$PROJECT_DIR$/database/database.iml" filepath="$PROJECT_DIR$/database/database.iml" />
     </modules>
   </component>

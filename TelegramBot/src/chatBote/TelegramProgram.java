@@ -29,8 +29,10 @@ public class TelegramProgram {
         ApiContextInitializer.init();
         TelegramBotsApi botapi = new TelegramBotsApi();
         QuizTasksExtractor extractor = new QuizTasksExtractor("resources/questions");
+        TelegramBot bot = new TelegramBot();
+        TelegramBotLogic telegramBotLogic = new TelegramBotLogic(bot, extractor);
+        bot.subscribe(telegramBotLogic);
         try {
-            TelegramBot bot = new TelegramBot(extractor);
             botapi.registerBot(bot);
         } catch (TelegramApiException e) {
             e.printStackTrace();
