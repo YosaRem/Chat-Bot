@@ -12,12 +12,17 @@ public class FakeReader implements IReader, IPublisher {
 
     @Override
     public String read() throws IOException {
+        subscriber.objectModified(input);
         return input;
     }
 
     @Override
     public void subscribe(ISubscriber subscriber) {
         this.subscriber = subscriber;
+    }
+
+    public void setInput(String input) {
+        this.input = input;
     }
 
     public String getInput() {
