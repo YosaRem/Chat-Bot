@@ -1,12 +1,6 @@
 package chatBote;
 
-import game.Player;
-import game.QuizGame;
-import game.QuizLogic;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-
-import java.util.*;
-
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -16,9 +10,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import publisher_subscriber.IPublisher;
 import publisher_subscriber.ISubscriber;
-import tasks_extractor.QuizTasksExtractor;
-import writers.IWriter;
-import writers.TelegramWriter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TelegramBot extends TelegramLongPollingBot implements IPublisher {
