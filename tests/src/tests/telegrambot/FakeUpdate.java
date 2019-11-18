@@ -1,4 +1,4 @@
-package tests.logic;
+package tests.telegrambot;
 
 import chatBote.TelegramMesData;
 import org.telegram.telegrambots.meta.api.objects.Message;
