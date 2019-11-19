@@ -13,7 +13,7 @@ import java.util.List;
 public class TelegramLogicTest {
     @Test
     public void createOneGameLogic() {
-        FakeBot tb = new FakeBot(null, null);
+        FakeBot tb = new FakeBot();
         QuizTasksExtractor extractor = new QuizTasksExtractor("src/test/test_files/good");
         TelegramBotLogic logic = new TelegramBotLogic(tb, extractor);
         logic.objectModified(new TelegramMesData("a", "1", "test"));
@@ -23,7 +23,7 @@ public class TelegramLogicTest {
 
     @Test
     public void createSeveralGamesLogic() {
-        FakeBot tb = new FakeBot(null, null);
+        FakeBot tb = new FakeBot();
         QuizTasksExtractor extractor = new QuizTasksExtractor("src/test/test_files/good");
         TelegramBotLogic logic = new TelegramBotLogic(tb, extractor);
         logic.objectModified(new TelegramMesData("a", "1", "test"));

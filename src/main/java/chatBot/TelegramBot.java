@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TelegramBot extends TelegramLongPollingBot implements IPublisher {
+public class TelegramBot extends TelegramLongPollingBot implements ITelegramBot {
     private final String botName;
     private final String token;
     private ISubscriber telegramBotLogic;
@@ -41,6 +41,7 @@ public class TelegramBot extends TelegramLongPollingBot implements IPublisher {
         }
     }
 
+    @Override
     public synchronized void sendMsg(String chatId, String s) {
         SendMessage sendMes = new SendMessage();
         System.out.println(s);
