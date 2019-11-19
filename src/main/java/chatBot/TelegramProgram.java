@@ -12,7 +12,9 @@ public class TelegramProgram {
     public static void main(String[] args) {
         ApiContextInitializer.init();
         QuizTasksExtractor extractor = new QuizTasksExtractor(questionPath);
-        TelegramBot bot = new TelegramBot();
+        String botName = System.getenv("TelegramBotName");
+        String botToken = System.getenv("TelegramBotToken");
+        TelegramBot bot = new TelegramBot(botName, botToken);
         TelegramBotLogic telegramBotLogic = new TelegramBotLogic(bot, extractor);
         bot.subscribe(telegramBotLogic);
         try {

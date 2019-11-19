@@ -17,10 +17,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TelegramBot extends TelegramLongPollingBot implements IPublisher {
-    private final String botName = "Millionare_chat_bot";
-    private final String token = "1055331641:AAHr8zihVZw7gWFvwNObGjVBAEiQ-cwkeiY";
+    private final String botName;
+    private final String token;
     private ISubscriber telegramBotLogic;
     private static Logger log = Logger.getLogger(TelegramBot.class.getName());
+
+    public TelegramBot(String botName, String token) {
+        this.botName = botName;
+        this.token = token;
+    }
 
 
     @Override
