@@ -1,4 +1,4 @@
-package tests.extractor;
+package extractor;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -8,10 +8,11 @@ import taks_models.QuizTask;
 
 import tasks_extractor.QuizTasksExtractor;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 class ExtractorTests {
-    private static final String goodPath = "test_files/good";
+    private static final String goodPath = "src/test/test_files/good";
 
     @Test
     void readingFromCorrectFile() throws IOException {
@@ -24,7 +25,7 @@ class ExtractorTests {
 
     @Test
     void moreLinesInFile() throws IOException {
-        QuizTasksExtractor qt = new QuizTasksExtractor("test_files/moreLines");
+        QuizTasksExtractor qt = new QuizTasksExtractor("src/test/test_files/moreLines");
         QuizTask task = (QuizTask) qt.getRandomTaskConsiderLevel(0);
         assertEquals("correctAnswer", task.getRightAnswer());
         assertEquals(4, task.getOptions().size());

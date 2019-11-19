@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
     private QuizTasksExtractor extractor;
-    private final HashMap<String, ISubscriber> subscribers;
+    public final HashMap<String, ISubscriber> subscribers;
     private TelegramBot telegramBot;
 
     public TelegramBotLogic(TelegramBot telegramBot, QuizTasksExtractor extractor) {

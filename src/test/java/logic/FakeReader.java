@@ -1,4 +1,4 @@
-package tests.logic;
+package logic;
 
 import publisher_subscriber.IPublisher;
 import publisher_subscriber.ISubscriber;

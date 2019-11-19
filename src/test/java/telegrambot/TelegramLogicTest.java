@@ -1,8 +1,9 @@
-package tests.telegrambot;
+package telegrambot;
 
 import static org.junit.jupiter.api.Assertions.*;
-import chatBote.TelegramBotLogic;
-import chatBote.TelegramMesData;
+
+import chatBot.TelegramBotLogic;
+import chatBot.TelegramMesData;
 import org.junit.jupiter.api.Test;
 import tasks_extractor.QuizTasksExtractor;
 import java.util.Arrays;
@@ -12,7 +13,7 @@ public class TelegramLogicTest {
     @Test
     public void createOneGameLogic() {
         FakeBot tb = new FakeBot();
-        QuizTasksExtractor extractor = new QuizTasksExtractor("test_files/good");
+        QuizTasksExtractor extractor = new QuizTasksExtractor("src/test/test_files/good");
         TelegramBotLogic logic = new TelegramBotLogic(tb, extractor);
         logic.objectModified(new TelegramMesData("a", "1", "test"));
         List<String> expectedKeys = Arrays.asList("1");
@@ -22,7 +23,7 @@ public class TelegramLogicTest {
     @Test
     public void createSeveralGamesLogic() {
         FakeBot tb = new FakeBot();
-        QuizTasksExtractor extractor = new QuizTasksExtractor("test_files/good");
+        QuizTasksExtractor extractor = new QuizTasksExtractor("src/test/test_files/good");
         TelegramBotLogic logic = new TelegramBotLogic(tb, extractor);
         logic.objectModified(new TelegramMesData("a", "1", "test"));
         logic.objectModified(new TelegramMesData("a", "111", "test"));
@@ -33,7 +34,7 @@ public class TelegramLogicTest {
     @Test
     public void gamesDoseNotRepeated() {
         FakeBot tb = new FakeBot();
-        QuizTasksExtractor extractor = new QuizTasksExtractor("test_files/good");
+        QuizTasksExtractor extractor = new QuizTasksExtractor("src/test/test_files/good");
         TelegramBotLogic logic = new TelegramBotLogic(tb, extractor);
         logic.objectModified(new TelegramMesData("a", "1", "test"));
         logic.objectModified(new TelegramMesData("a", "1", "test"));

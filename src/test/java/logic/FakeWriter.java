@@ -1,4 +1,4 @@
-package tests.logic;
+package logic;
 
 import writers.IWriter;
 

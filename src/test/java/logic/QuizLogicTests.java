@@ -1,4 +1,4 @@
-package tests.logic;
+package logic;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,9 +15,9 @@ public class QuizLogicTests {
     public void checkingUnacceptableAnswer() throws IOException {
         FakeWriter writer = new FakeWriter();
         FakeReader reader = new FakeReader();
-        QuizGame game = new QuizGame(new QuizTasksExtractor("resources/questions"));
+        QuizGame game = new QuizGame(new QuizTasksExtractor("src/main/resources/questions"));
         Player player = new Player("Test");
-        QuizLogic logic = new QuizLogic(writer, player, game, "resources/help.txt");
+        QuizLogic logic = new QuizLogic(writer, player, game, "src/main/resources/help.txt");
 
         reader.subscribe(logic);
         logic.startGame();
@@ -31,9 +31,9 @@ public class QuizLogicTests {
     public void checkingWrongAnswer() throws IOException {
         FakeWriter writer = new FakeWriter();
         FakeReader reader = new FakeReader();
-        QuizGame game = new QuizGame(new QuizTasksExtractor("resources/questions"));
+        QuizGame game = new QuizGame(new QuizTasksExtractor("src/main/resources/questions"));
         Player player = new Player("Test");
-        QuizLogic logic = new QuizLogic(writer, player, game, "resources/help.txt");
+        QuizLogic logic = new QuizLogic(writer, player, game, "src/main/resources/help.txt");
 
         reader.subscribe(logic);
         logic.startGame();

@@ -1,4 +1,4 @@
-package tests.extractor;
+package extractor;
 
 import org.junit.jupiter.api.Test;
 import taks_models.QuizTask;
@@ -8,7 +8,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class QuizTests {
-    private static final String testPath = "resources";
+    private static final String testPath = "src/main/resources";
 
     @Test
     void createQuizTask() {

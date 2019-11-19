@@ -1,8 +1,7 @@
-package tests.telegrambot;
+package telegrambot;
 
-import chatBote.TelegramMesData;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import chatBot.TelegramMesData;
+import org.telegram.telegrambots.api.objects.Update;
 
 public class FakeUpdate extends Update {
     TelegramMesData data;
