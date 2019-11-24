@@ -29,12 +29,11 @@ public class TelegramBot extends TelegramLongPollingBot implements ITelegramBot 
         this.token = token;
     }
 
-
     @Override
     public void onUpdateReceived(Update update) {
         Message message;
         String text;
-        if (update.hasMessage()) {
+        if (update.hasMessage() && update.getMessage().hasText()) {
             message = update.getMessage();
             text=message.getText();
         } else if (update.hasCallbackQuery()) {
