@@ -16,12 +16,12 @@ public class PlayerCreator {
 
     public Player cratePlayerFromInput() {
         String name = "";
-        writer.print("Введите имя игрока");
+        writer.printMsg("Введите имя игрока");
         try {
             name = reader.read();
         } catch (IOException e) {
-            writer.print("Не могу считать имя игрока");
-            writer.print(e.getMessage());
+            writer.printMsg("Не могу считать имя игрока");
+            writer.printMsg(e.getMessage());
             e.printStackTrace();
         }
         return new Player(name);

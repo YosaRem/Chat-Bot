@@ -3,7 +3,6 @@ package game;
 import publisher_subscriber.ISubscriber;
 import readers.LineReader;
 import taks_models.QuizTask;
-import taks_models.QuizTaskValue;
 import writers.IWriter;
 
 import java.io.File;
@@ -40,7 +39,7 @@ public class QuizLogic implements ISubscriber<String> {
                 break;
             }
             case "/scores": {
-                writer.print("Игрок - " + player.getName() + "\nВаш уровень - "
+                writer.printMsg("Игрок - " + player.getName() + "\nВаш уровень - "
                         + game.getLevel() + "\nВаши очки - " + player.getScore());
                 break;
             }
@@ -49,7 +48,7 @@ public class QuizLogic implements ISubscriber<String> {
                     QuizTask task = game.deleteTwoIncorrectAnswers();
                     printTask(task);
                 } else {
-                    writer.print("Вы уже использовали эту возможность");
+                    writer.printMsg("Вы уже использовали эту возможность");
                 }
                 break;
             }
@@ -57,7 +56,7 @@ public class QuizLogic implements ISubscriber<String> {
                 try {
                     checkInputAnswer(Integer.parseInt(input));
                 } catch (NumberFormatException e) {
-                    writer.print("Ответ введён неверно. Попробуйте ещё раз.");
+                    writer.printMsg("Ответ введён неверно. Попробуйте ещё раз.");
                     return;
                 }
                 declaimTask();
@@ -67,22 +66,22 @@ public class QuizLogic implements ISubscriber<String> {
 
     private void checkInputAnswer(Integer value) {
         if (game.checkAnswer(value)) {
-            writer.print("Правильно!");
+            writer.printMsg("Правильно!");
             player.increaseScore(game.getTaskPrice());
             game.incrementLevel();
             return;
         }
-        writer.print("Увы, но это не так.\n" + "Правильный ответ - " + game.getRightAnswer());
+        writer.printMsg("Увы, но это не так.\n" + "Правильный ответ - " + game.getRightAnswer());
         player.makeMistake();
         game.playerMadeMistake();
     }
 
     private void declaimTask() {
         try {
-            QuizTask task = game.getTask();
-            printTask(task);
+            QuizTask currentTask = game.getTask();
+            printTask(currentTask);
         } catch (FileNotFoundException e) {
-            writer.print("Не получается считать задание из файла " + e.getMessage());
+            writer.printMsg("Не получается считать задание из файла " + e.getMessage());
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -93,14 +92,14 @@ public class QuizLogic implements ISubscriber<String> {
         File file = new File(path);
         try {
             ArrayList<String> lines = new LineReader(file).read();
-            writer.print(String.join("\n", lines));
+            writer.printMsg(String.join("\n", lines));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void printTask(QuizTask task) {
-        writer.print(new QuizTaskValue(task).getDescription());
+        writer.printTask(task);
     }
 
     @Override

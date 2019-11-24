@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
     private QuizTasksExtractor extractor;
-    private final HashMap<String, ISubscriber> subscribers;
+    private final HashMap<String, QuizLogic> subscribers;
     private ITelegramBot telegramBot;
 
     public TelegramBotLogic(ITelegramBot telegramBot, QuizTasksExtractor extractor) {
@@ -21,7 +21,7 @@ public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
         this.extractor = extractor;
     }
 
-    private ISubscriber createGame(String chatId, String firstName) {
+    private QuizLogic createGame(String chatId, String firstName) {
         IWriter writer = new TelegramWriter(telegramBot, chatId);
         QuizGame game = new QuizGame(extractor);
         Player player = new Player(firstName);
@@ -34,11 +34,11 @@ public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
     @Override
     public void objectModified(TelegramMesData data) {
         synchronized (subscribers) {
-            ISubscriber currentSubscriber = subscribers.get(data.chatId);
+            QuizLogic currentSubscriber = subscribers.get(data.chatId);
             if (currentSubscriber != null) {
                 currentSubscriber.objectModified(data.text);
             } else {
-                ISubscriber game = createGame(data.chatId, data.name);
+                QuizLogic game = createGame(data.chatId, data.name);
                 subscribers.put(data.chatId, game);
             }
         }

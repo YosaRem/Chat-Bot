@@ -3,12 +3,14 @@ package chatBot;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
+import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
-import publisher_subscriber.IPublisher;
 import publisher_subscriber.ISubscriber;
 
 import java.util.ArrayList;
@@ -30,25 +32,32 @@ public class TelegramBot extends TelegramLongPollingBot implements ITelegramBot 
 
     @Override
     public void onUpdateReceived(Update update) {
-        Message message = update.getMessage();
-        if (message != null && message.hasText()) {
-            String text = message.getText();
-            String chatId = message.getChatId().toString();
-            String firstName = message.getChat().getFirstName();
-            printToConsole(message.getDate(), chatId, firstName, text);
-            log.log(Level.INFO, "TEXT: ", text);
-            telegramBotLogic.objectModified(new TelegramMesData(firstName, chatId, text));
+        Message message;
+        String text;
+        if (update.hasMessage()) {
+            message = update.getMessage();
+            text=message.getText();
+        } else if (update.hasCallbackQuery()) {
+            message = update.getCallbackQuery().getMessage();
+            text=update.getCallbackQuery().getData();
+        } else {
+            return;
         }
+        String chatId = message.getChatId().toString();
+        String firstName = message.getChat().getFirstName();
+        printToConsole(message.getDate(), chatId, firstName, text);
+        log.log(Level.INFO, "TEXT: ", text);
+        telegramBotLogic.objectModified(new TelegramMesData(firstName, chatId, text));
     }
 
     @Override
-    public synchronized void sendMsg(String chatId, String s) {
+    public synchronized void sendMsg(String chatId, String s, IKeyboard keyboard) {
         SendMessage sendMes = new SendMessage();
         System.out.println(s);
         sendMes.enableMarkdown(true);
         sendMes.setChatId(chatId);
         sendMes.setText(s);
-        setButtons(sendMes);
+        sendMes.setReplyMarkup(keyboard.getKeyboard());
         try {
             execute(sendMes);
         } catch (TelegramApiException e) {
@@ -79,6 +88,7 @@ public class TelegramBot extends TelegramLongPollingBot implements ITelegramBot 
         keyboard.add(keyboardSecondRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
+
 
     @Override
     public String getBotUsername() {

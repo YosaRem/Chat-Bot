@@ -1,5 +1,6 @@
 package telegrambot;
 
+import chatBot.IKeyboard;
 import chatBot.ITelegramBot;
 import chatBot.TelegramBot;
 import org.telegram.telegrambots.api.objects.Update;
@@ -11,7 +12,7 @@ public class FakeBot implements ITelegramBot {
     public String lastChatId;
 
     @Override
-    public void sendMsg(String chatId, String s) {
+    public void sendMsg(String chatId, String s, IKeyboard keyboard) {
         lastChatId = chatId;
         text = s;
     }

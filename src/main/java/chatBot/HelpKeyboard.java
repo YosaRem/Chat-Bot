@@ -8,16 +8,16 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StartKeyboard implements IKeyboard {
+public class HelpKeyboard implements IKeyboard {
     private final ReplyKeyboardMarkup replyKeyboardMarkup;
 
-    public StartKeyboard() {
+    public HelpKeyboard() {
         replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow keyboardFirstRow = new KeyboardRow();
-        keyboardFirstRow.add(new KeyboardButton("Начать игру"));
+        keyboardFirstRow.add(new KeyboardButton("Подсказка"));
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         keyboardSecondRow.add(new KeyboardButton("Помощь"));
         keyboard.add(keyboardFirstRow);
