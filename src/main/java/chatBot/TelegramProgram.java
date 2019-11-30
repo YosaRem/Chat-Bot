@@ -2,6 +2,8 @@ package chatBot;
 
 import commands.CommandConverter;
 import org.telegram.telegrambots.ApiContextInitializer;
+import org.telegram.telegrambots.bots.DefaultBotOptions;
+import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import tasks_extractor.QuizTasksExtractor;
@@ -12,20 +14,21 @@ public class TelegramProgram {
 
     public static void main(String[] args) {
         ApiContextInitializer.init();
+        DefaultBotOptions options = ApiContext.getInstance(DefaultBotOptions.class);
+        options.setProxyHost("66.110.216.221");
+        options.setProxyPort(39603);
+        //Select proxy type: [HTTP|SOCKS4|SOCKS5] (default: NO_PROXY)
+        options.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
+
         QuizTasksExtractor extractor = new QuizTasksExtractor(questionPath);
         String botName = System.getenv("TelegramBotName");
         String botToken = System.getenv("TelegramBotToken");
-        TelegramBot bot = new TelegramBot(botName, botToken);
+        TelegramBot bot = new TelegramBot(botName, botToken, options);
         TelegramBotLogic telegramBotLogic = new TelegramBotLogic(bot, extractor);
         CommandConverter.defineCommands();
         bot.subscribe(telegramBotLogic);
+
         try {
-            /*DefaultBotOptions options = ApiContext.getInstance(DefaultBotOptions.class);
-            options.
-            options.setProxyHost("166.62.83.129");
-            options.setProxyPort(20333);
-            //Select proxy type: [HTTP|SOCKS4|SOCKS5] (default: NO_PROXY)
-            options.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);*/
             TelegramBotsApi botapi = new TelegramBotsApi();
             botapi.registerBot(bot);
         } catch (TelegramApiException e) {

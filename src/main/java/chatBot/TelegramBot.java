@@ -1,5 +1,6 @@
 package chatBot;
 
+import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -17,7 +18,8 @@ public class TelegramBot extends TelegramLongPollingBot implements ITelegramBot 
     private ISubscriber telegramBotLogic;
     private static Logger log = Logger.getLogger(TelegramBot.class.getName());
 
-    public TelegramBot(String botName, String token) {
+    public TelegramBot(String botName, String token, DefaultBotOptions options) {
+        super(options);
         this.botName = botName;
         this.token = token;
     }
