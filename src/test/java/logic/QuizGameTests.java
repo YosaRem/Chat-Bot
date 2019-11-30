@@ -21,7 +21,7 @@ public class QuizGameTests {
         QuizGame game = new QuizGame(new QuizTasksExtractor("src/test/test_files/good"));
         game.incrementLevel();
         assertEquals(1, game.getLevel());
-        game.playerMadeMistake();
+        game.resetLevel();
         assertEquals(0, game.getLevel());
     }
 

@@ -22,7 +22,7 @@ public class Player {
         score += value;
     }
 
-    public void makeMistake() {
+    public void resetScore() {
         score = 0;
         isOnlyTwoUsed = true;
     }

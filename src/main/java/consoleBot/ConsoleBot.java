@@ -1,5 +1,9 @@
 package consoleBot;
 
+import commands.CommandConverter;
+import commands.DeleteCommand;
+import commands.ScoresCommand;
+import commands.StartCommand;
 import game.QuizGame;
 import game.QuizLogic;
 import game.Player;
@@ -19,6 +23,7 @@ public class ConsoleBot {
         Player player = new PlayerCreator(reader, writer).cratePlayerFromInput();
         QuizLogic quizLogic = new QuizLogic(writer, player, game, "src/main/resources/help.txt");
         reader.subscribe(quizLogic);
+        CommandConverter.defineCommands();
         quizLogic.startGame();
         while (true) {
             reader.read();

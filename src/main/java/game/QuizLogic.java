@@ -1,5 +1,7 @@
 package game;
 
+import commands.BaseCommand;
+import commands.CommandConverter;
 import publisher_subscriber.ISubscriber;
 import readers.LineReader;
 import taks_models.QuizTask;
@@ -15,52 +17,33 @@ public class QuizLogic implements ISubscriber<String> {
     private QuizGame game;
     private IWriter writer;
     private String path;
-    private boolean isSubscriberReady;
 
     public QuizLogic(IWriter writer, Player player, QuizGame game, String instructionsPath) {
         this.writer = writer;
         this.player = player;
         this.game = game;
         this.path = instructionsPath;
-        this.isSubscriberReady = false;
     }
 
     public void startGame() {
-        printHelp();
+        CommandConverter.getCommand("/help").justDoIt(this);
         declaimTask();
-        isSubscriberReady = true;
+        game.resetLevel();
+        player.resetScore();
     }
 
 
     private void continueGame(String input) {
-        switch (input) {
-            case "/help": {
-                printHelp();
-                break;
+        if (CommandConverter.canConvert(input)) {
+            CommandConverter.getCommand(input).justDoIt(this);
+        } else {
+            try {
+                checkInputAnswer(Integer.parseInt(input));
+            } catch (NumberFormatException e) {
+                writer.printMsg("Ответ введён неверно. Попробуйте ещё раз.");
+                return;
             }
-            case "/scores": {
-                writer.printMsg("Игрок - " + player.getName() + "\nВаш уровень - "
-                        + game.getLevel() + "\nВаши очки - " + player.getScore());
-                break;
-            }
-            case "/del": {
-                if (player.useOnlyTwoAnswer()) {
-                    QuizTask task = game.deleteTwoIncorrectAnswers();
-                    printTask(task);
-                } else {
-                    writer.printMsg("Вы уже использовали эту возможность");
-                }
-                break;
-            }
-            default: {
-                try {
-                    checkInputAnswer(Integer.parseInt(input));
-                } catch (NumberFormatException e) {
-                    writer.printMsg("Ответ введён неверно. Попробуйте ещё раз.");
-                    return;
-                }
-                declaimTask();
-            }
+            declaimTask();
         }
     }
 
@@ -72,8 +55,8 @@ public class QuizLogic implements ISubscriber<String> {
             return;
         }
         writer.printMsg("Увы, но это не так.\n" + "Правильный ответ - " + game.getRightAnswer());
-        player.makeMistake();
-        game.playerMadeMistake();
+        player.resetScore();
+        game.resetLevel();
     }
 
     private void declaimTask() {
@@ -88,23 +71,24 @@ public class QuizLogic implements ISubscriber<String> {
         }
     }
 
-    private void printHelp() {
-        File file = new File(path);
-        try {
-            ArrayList<String> lines = new LineReader(file).read();
-            writer.printMsg(String.join("\n", lines));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void printTask(QuizTask task) {
         writer.printTask(task);
     }
 
+    public QuizGame getGame() {
+        return game;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public IWriter getWriter() {
+        return writer;
+    }
+
     @Override
     public void objectModified(String data) {
-        if (isSubscriberReady)
-            continueGame(data);
+        continueGame(data);
     }
 }

@@ -35,7 +35,7 @@ public class PlayerTests {
         Player player = new Player("Name");
         player.increaseScore(100);
         assertEquals(100, player.getScore());
-        player.makeMistake();
+        player.resetScore();
         assertEquals(0, player.getScore());
     }
 }

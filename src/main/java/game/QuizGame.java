@@ -33,7 +33,7 @@ public class QuizGame {
         return variants[level];
     }
 
-    public void playerMadeMistake() {
+    public void resetLevel() {
         level = 0;
     }
 
