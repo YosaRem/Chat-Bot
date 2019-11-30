@@ -7,8 +7,6 @@ import chatBot.TelegramMesData;
 import org.junit.jupiter.api.Test;
 import tasks_extractor.QuizTasksExtractor;
 
-import java.util.Arrays;
-import java.util.List;
 
 public class TelegramLogicTest {
     @Test

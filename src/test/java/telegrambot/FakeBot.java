@@ -2,9 +2,6 @@ package telegrambot;
 
 import chatBot.IKeyboard;
 import chatBot.ITelegramBot;
-import chatBot.TelegramBot;
-import org.telegram.telegrambots.api.objects.Update;
-import publisher_subscriber.IPublisher;
 import publisher_subscriber.ISubscriber;
 
 public class FakeBot implements ITelegramBot {

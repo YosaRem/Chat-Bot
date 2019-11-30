@@ -50,6 +50,10 @@ public class QuizGame {
         return currentTask.getRightAnswer();
     }
 
+    public String getCurrentQuestion() {
+        return currentTask.getQuestion();
+    }
+
     public QuizTask deleteTwoIncorrectAnswers() {
         currentTask = currentTask.deleteTwoIncorrectAnswer();
         return currentTask;

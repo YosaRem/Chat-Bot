@@ -1,15 +1,10 @@
 package chatBot;
 
-import commands.DeleteCommand;
-import commands.ScoresCommand;
 import commands.CommandConverter;
-import commands.StartCommand;
-import org.telegram.telegrambots.ApiContext;
 import org.telegram.telegrambots.ApiContextInitializer;
-import org.telegram.telegrambots.TelegramBotsApi;
-import org.telegram.telegrambots.bots.DefaultBotOptions;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import tasks_extractor.QuizTasksExtractor;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
 
 
 public class TelegramProgram {

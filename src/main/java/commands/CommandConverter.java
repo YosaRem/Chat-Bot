@@ -25,9 +25,10 @@ public class CommandConverter {
         addCommand(DeleteCommand.getInstance());
         addCommand(ScoresCommand.getInstance());
         addCommand(HelpCommand.getInstance());
+        addCommand(HelpFriendCommand.getInstance());
     }
 
-    public static boolean canConvert(String input){
+    public static boolean canConvert(String input) {
         return allCommands.containsKey(input);
     }
 }
