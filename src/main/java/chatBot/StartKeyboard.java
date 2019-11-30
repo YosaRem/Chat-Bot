@@ -17,7 +17,7 @@ public class StartKeyboard implements IKeyboard {
         replyKeyboardMarkup.setResizeKeyboard(true);
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow keyboardFirstRow = new KeyboardRow();
-        keyboardFirstRow.add(new KeyboardButton("Начать игру"));
+        keyboardFirstRow.add(new KeyboardButton("Начать"));
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         keyboardSecondRow.add(new KeyboardButton("Помощь"));
         keyboard.add(keyboardFirstRow);

@@ -9,15 +9,18 @@ import writers.IWriter;
 import writers.TelegramWriter;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
     private QuizTasksExtractor extractor;
     private final HashMap<String, QuizLogic> subscribers;
+    private final HashSet<String> joined;
     private ITelegramBot telegramBot;
 
     public TelegramBotLogic(ITelegramBot telegramBot, QuizTasksExtractor extractor) {
         this.telegramBot = telegramBot;
-        subscribers = new HashMap<>();
+        this.subscribers = new HashMap<>();
+        this.joined = new HashSet<>();
         this.extractor = extractor;
     }
 
@@ -34,12 +37,20 @@ public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
     @Override
     public void objectModified(TelegramMesData data) {
         synchronized (subscribers) {
-            QuizLogic currentSubscriber = subscribers.get(data.chatId);
+            QuizLogic currentSubscriber = subscribers.get(data.getChatId());
             if (currentSubscriber != null) {
-                currentSubscriber.objectModified(data.text);
+                currentSubscriber.objectModified(data.getText());
+            } else if (joined.contains(data.getChatId())) {
+                if (data.getText().equals("Начать")) {
+                    QuizLogic game = createGame(data.getChatId(), data.getName());
+                    subscribers.put(data.getChatId(), game);
+                    joined.remove(data.getChatId());
+                } else {
+                    telegramBot.sendMsg(data.getChatId(), "Заходите позже!", new StartKeyboard());
+                }
             } else {
-                QuizLogic game = createGame(data.chatId, data.name);
-                subscribers.put(data.chatId, game);
+                telegramBot.sendMsg(data.getChatId(), "Хотите начать игру?", new StartKeyboard());
+                joined.add(data.getChatId());
             }
         }
     }

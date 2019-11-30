@@ -17,6 +17,7 @@ public class QuizLogic implements ISubscriber<String> {
     private QuizGame game;
     private IWriter writer;
     private String path;
+    private boolean isSubscriberReady;
 
     public QuizLogic(IWriter writer, Player player, QuizGame game, String instructionsPath) {
         this.writer = writer;
