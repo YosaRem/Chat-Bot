@@ -26,9 +26,9 @@ public class HintKeyboard implements IKeyboard {
         keyboardButtonsRow3.add(new InlineKeyboardButton()
                 .setText("Помощь друга")
                 .setCallbackData("/resend"));
+        rowList.add(keyboardButtonsRow3);
         rowList.add(keyboardButtonsRow1);
         rowList.add(keyboardButtonsRow2);
-        rowList.add(keyboardButtonsRow3);
         hintKeyboard.setKeyboard(rowList);
     }
 

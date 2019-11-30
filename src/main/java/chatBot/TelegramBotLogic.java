@@ -26,7 +26,7 @@ public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
     }
 
     private QuizLogic createGame(String chatId, String firstName) {
-        IWriter writer = new TelegramWriter(telegramBot, chatId, new StartKeyboard());
+        IWriter writer = new TelegramWriter(telegramBot, chatId, new StandardKeyboard());
         QuizGame game = new QuizGame(extractor);
         Player player = new Player(firstName);
         QuizLogic quizLogic = new QuizLogic(writer, player, game, "src/main/resources/help.txt");
