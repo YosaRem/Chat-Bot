@@ -26,6 +26,7 @@ public class CommandConverter {
         addCommand(ScoresCommand.getInstance());
         addCommand(HelpCommand.getInstance());
         addCommand(HelpFriendCommand.getInstance());
+        addCommand(HintCommand.getInstance());
     }
 
     public static boolean canConvert(String input) {
