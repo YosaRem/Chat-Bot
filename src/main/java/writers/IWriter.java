@@ -1,5 +1,8 @@
 package writers;
 
+import taks_models.QuizTask;
+
 public interface IWriter {
-    void print(String message);
+    void printMsg(String message);
+    void printTask(QuizTask task);
 }

@@ -1,16 +1,22 @@
 package logic;
 
+import taks_models.QuizTask;
 import writers.IWriter;
 
 public class FakeWriter implements IWriter {
     public String output;
 
+    public String getOutput() {
+        return output;
+    }
+
     @Override
-    public void print(String message) {
+    public void printMsg(String message) {
         output = message;
     }
 
-    public String getOutput() {
-        return output;
+    @Override
+    public void printTask(QuizTask task) {
+        return;
     }
 }

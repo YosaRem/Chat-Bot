@@ -33,7 +33,7 @@ public class QuizGame {
         return variants[level];
     }
 
-    public void playerMadeMistake() {
+    public void resetLevel() {
         level = 0;
     }
 
@@ -48,6 +48,10 @@ public class QuizGame {
 
     public String getRightAnswer() {
         return currentTask.getRightAnswer();
+    }
+
+    public String getCurrentQuestion() {
+        return currentTask.getQuestion();
     }
 
     public QuizTask deleteTwoIncorrectAnswers() {

@@ -1,5 +1,6 @@
 package chatBot;
 
+import commands.GooglingHint;
 import game.Player;
 import game.QuizGame;
 import game.QuizLogic;
@@ -9,20 +10,23 @@ import writers.IWriter;
 import writers.TelegramWriter;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
     private QuizTasksExtractor extractor;
-    private final HashMap<String, ISubscriber> subscribers;
+    private final HashMap<String, QuizLogic> subscribers;
+    private final HashSet<String> joined;
     private ITelegramBot telegramBot;
 
     public TelegramBotLogic(ITelegramBot telegramBot, QuizTasksExtractor extractor) {
         this.telegramBot = telegramBot;
-        subscribers = new HashMap<>();
+        this.subscribers = new HashMap<>();
+        this.joined = new HashSet<>();
         this.extractor = extractor;
     }
 
-    private ISubscriber createGame(String chatId, String firstName) {
-        IWriter writer = new TelegramWriter(telegramBot, chatId);
+    private QuizLogic createGame(String chatId, String firstName) {
+        IWriter writer = new TelegramWriter(telegramBot, chatId, new StandardKeyboard());
         QuizGame game = new QuizGame(extractor);
         Player player = new Player(firstName);
         QuizLogic quizLogic = new QuizLogic(writer, player, game, "src/main/resources/help.txt");
@@ -34,12 +38,24 @@ public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
     @Override
     public void objectModified(TelegramMesData data) {
         synchronized (subscribers) {
-            ISubscriber currentSubscriber = subscribers.get(data.chatId);
+            QuizLogic currentSubscriber = subscribers.get(data.getChatId());
+            if(data.getText().equals("/googling")){
+                new GooglingHint().assist(currentSubscriber);
+                return;
+            }
             if (currentSubscriber != null) {
-                currentSubscriber.objectModified(data.text);
+                currentSubscriber.objectModified(data.getText());
+            } else if (joined.contains(data.getChatId())) {
+                if (data.getText().equals("Начать")) {
+                    QuizLogic game = createGame(data.getChatId(), data.getName());
+                    subscribers.put(data.getChatId(), game);
+                } else {
+                    telegramBot.sendMsg(data.getChatId(), "Чтобы возобновить общение пошлите любое сообщение", new StartKeyboard());
+                }
+                joined.remove(data.getChatId());
             } else {
-                ISubscriber game = createGame(data.chatId, data.name);
-                subscribers.put(data.chatId, game);
+                telegramBot.sendMsg(data.getChatId(), "Хотите начать игру?", new StartKeyboard());
+                joined.add(data.getChatId());
             }
         }
     }

@@ -20,7 +20,7 @@ public class QuizTask implements Task {
     }
 
     public Map<Integer, String> getOptions() {
-        return options;
+        return new HashMap<>(options);
     }
 
     @Override
