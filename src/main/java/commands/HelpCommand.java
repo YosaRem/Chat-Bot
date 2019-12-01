@@ -14,7 +14,7 @@ public class HelpCommand extends BaseCommand {
 
     @Override
     public String getDescription() {
-        return getName() + " Выводит информацию о командахю";
+        return getName() + " Выводит информацию о командах.";
     }
 
     public static HelpCommand getInstance() {

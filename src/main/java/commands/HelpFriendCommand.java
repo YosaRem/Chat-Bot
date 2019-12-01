@@ -11,7 +11,7 @@ public class HelpFriendCommand extends BaseCommand {
 
     @Override
     public String getDescription() {
-        return "Запросить помощь друга";
+        return getName() + " Запросить помощь друга.";
     }
 
     @Override

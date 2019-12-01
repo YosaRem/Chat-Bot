@@ -1,6 +1,6 @@
 package chatBot;
 
-import commands.GooglingHint;
+import commands.HintCommand;
 import game.Player;
 import game.QuizGame;
 import game.QuizLogic;
@@ -39,10 +39,6 @@ public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
     public void objectModified(TelegramMesData data) {
         synchronized (subscribers) {
             QuizLogic currentSubscriber = subscribers.get(data.getChatId());
-            if(data.getText().equals("/googling")){
-                new GooglingHint().assist(currentSubscriber);
-                return;
-            }
             if (currentSubscriber != null) {
                 currentSubscriber.objectModified(data.getText());
             } else if (joined.contains(data.getChatId())) {

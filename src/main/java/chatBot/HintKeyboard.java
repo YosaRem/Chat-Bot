@@ -17,7 +17,7 @@ public class HintKeyboard implements IKeyboard {
         List<InlineKeyboardButton> keyboardButtonsRow2 = new ArrayList<>();
         List<InlineKeyboardButton> keyboardButtonsRow3 = new ArrayList<>();
         keyboardButtonsRow1.add(new InlineKeyboardButton()
-                .setText("Запрос в гугл")
+                .setText("Посмотреть ответ в google")
                 .setCallbackData("совершен запрос")
                 .setUrl("www.google.com/search?q=" + search));
         keyboardButtonsRow2.add(new InlineKeyboardButton()
@@ -26,9 +26,9 @@ public class HintKeyboard implements IKeyboard {
         keyboardButtonsRow3.add(new InlineKeyboardButton()
                 .setText("Помощь друга")
                 .setCallbackData("/resend"));
-        rowList.add(keyboardButtonsRow3);
-        rowList.add(keyboardButtonsRow1);
         rowList.add(keyboardButtonsRow2);
+        rowList.add(keyboardButtonsRow1);
+        rowList.add(keyboardButtonsRow3);
         hintKeyboard.setKeyboard(rowList);
     }
 
