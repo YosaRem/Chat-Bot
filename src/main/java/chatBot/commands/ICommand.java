@@ -1,4 +1,4 @@
-package commands;
+package chatBot.commands;
 
 import game.Player;
 import game.QuizGame;
@@ -7,5 +7,5 @@ import writers.IWriter;
 
 
 public interface ICommand {
-    void justDoIt(QuizLogic logic);
+    void justDoIt(CommandData data);
 }
