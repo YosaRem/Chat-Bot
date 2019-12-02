@@ -27,7 +27,6 @@ public class TelegramWriter implements IWriter {
 
     @Override
     public void printMsg(String message) {
-        System.out.println(message + " " + isUpdateKeyboard);
         if (this.isUpdateKeyboard) {
             bot.sendMsg(userId, message, currentKeyboard);
             this.isUpdateKeyboard = false;

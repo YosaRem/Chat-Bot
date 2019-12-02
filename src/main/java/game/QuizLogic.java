@@ -2,6 +2,7 @@ package game;
 
 import commands.BaseCommand;
 import commands.CommandConverter;
+import commands.HelpCommand;
 import publisher_subscriber.ISubscriber;
 import readers.LineReader;
 import taks_models.QuizTask;
@@ -16,6 +17,7 @@ public class QuizLogic implements ISubscriber<String> {
     private Player player;
     private QuizGame game;
     private IWriter writer;
+    private QuizTask currentTask;
     private String path;
     private boolean isSubscriberReady;
 
@@ -27,7 +29,7 @@ public class QuizLogic implements ISubscriber<String> {
     }
 
     public void startGame() {
-        CommandConverter.getCommand("/help").justDoIt(this);
+        HelpCommand.getInstance().justDoIt(this);
         declaimTask();
         game.resetLevel();
         player.resetScore();
@@ -35,17 +37,13 @@ public class QuizLogic implements ISubscriber<String> {
 
 
     private void continueGame(String input) {
-        if (CommandConverter.canConvert(input)) {
-            CommandConverter.getCommand(input).justDoIt(this);
-        } else {
-            try {
-                checkInputAnswer(Integer.parseInt(input));
-            } catch (NumberFormatException e) {
-                writer.printMsg("Ответ введён неверно. Попробуйте ещё раз.");
-                return;
-            }
-            declaimTask();
+        try {
+            checkInputAnswer(Integer.parseInt(input));
+        } catch (NumberFormatException e) {
+            writer.printMsg("Ответ введён неверно. Попробуйте ещё раз.");
+            return;
         }
+        declaimTask();
     }
 
     private void checkInputAnswer(Integer value) {
@@ -62,7 +60,7 @@ public class QuizLogic implements ISubscriber<String> {
 
     private void declaimTask() {
         try {
-            QuizTask currentTask = game.getTask();
+            currentTask = game.getTask();
             printTask(currentTask);
         } catch (FileNotFoundException e) {
             writer.printMsg("Не получается считать задание из файла " + e.getMessage());
@@ -88,8 +86,16 @@ public class QuizLogic implements ISubscriber<String> {
         return writer;
     }
 
+    public QuizTask getCurrentTask() {
+        return currentTask;
+    }
+
     @Override
     public void objectModified(String data) {
-        continueGame(data);
+        if (CommandConverter.canConvert(data)) {
+            CommandConverter.getCommand(data).justDoIt(this);
+        } else {
+            continueGame(data);
+        }
     }
 }

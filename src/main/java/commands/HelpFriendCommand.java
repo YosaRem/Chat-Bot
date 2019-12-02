@@ -1,9 +1,12 @@
 package commands;
 
+import chatBot.TelegramBotLogic;
 import game.QuizLogic;
 
+import java.util.ArrayList;
+
 public class HelpFriendCommand extends BaseCommand {
-    public static final HelpFriendCommand command = new HelpFriendCommand();
+    private static final HelpFriendCommand command = new HelpFriendCommand();
 
     public HelpFriendCommand() {
         super("/resend");
