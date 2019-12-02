@@ -35,17 +35,13 @@ public class QuizLogic implements ISubscriber<String> {
 
 
     private void continueGame(String input) {
-        if (CommandConverter.canConvert(input)) {
-            CommandConverter.getCommand(input).justDoIt(this);
-        } else {
-            try {
-                checkInputAnswer(Integer.parseInt(input));
-            } catch (NumberFormatException e) {
-                writer.printMsg("Ответ введён неверно. Попробуйте ещё раз.");
-                return;
-            }
-            declaimTask();
+        try {
+            checkInputAnswer(Integer.parseInt(input));
+        } catch (NumberFormatException e) {
+            writer.printMsg("Ответ введён неверно. Попробуйте ещё раз.");
+            return;
         }
+        declaimTask();
     }
 
     private void checkInputAnswer(Integer value) {
@@ -90,6 +86,9 @@ public class QuizLogic implements ISubscriber<String> {
 
     @Override
     public void objectModified(String data) {
+        if (CommandConverter.canConvert(data)) {
+            CommandConverter.getCommand(data).justDoIt(this);
+        }
         continueGame(data);
     }
 }

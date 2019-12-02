@@ -9,8 +9,7 @@ import tasks_extractor.QuizTasksExtractor;
 import writers.IWriter;
 import writers.TelegramWriter;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
     private QuizTasksExtractor extractor;
@@ -40,6 +39,10 @@ public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
         synchronized (subscribers) {
             QuizLogic currentSubscriber = subscribers.get(data.getChatId());
             if (currentSubscriber != null) {
+                if (data.getText().equals("/resend")) {
+                    getFriends(subscribers.get(data.getChatId()), data.getChatId());
+                    return;
+                }
                 currentSubscriber.objectModified(data.getText());
             } else if (joined.contains(data.getChatId())) {
                 if (data.getText().equals("Начать")) {
@@ -54,5 +57,39 @@ public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
                 joined.add(data.getChatId());
             }
         }
+    }
+
+    public void getFriends(QuizLogic logic, String id) {
+        Random rnd = new Random();
+        int userCount = 2;
+        System.out.println("Subscribers=" + subscribers.size());
+        if (subscribers.size() == 1) {
+            System.out.println("Was return");
+            return;
+        }
+
+        ArrayList<String> otherUsers = new ArrayList<>();
+        for (String subscriber : subscribers.keySet()) {
+            if (subscriber.equals(id))
+                continue;
+            otherUsers.add(subscriber);
+        }
+        Collections.shuffle(otherUsers);
+        System.out.println("Confirm other" + otherUsers.size());
+        int number = 0;
+        if (otherUsers.size() > userCount) {
+            number = rnd.nextInt(otherUsers.size() - userCount);
+        }
+        ArrayList<UserData> friends = new ArrayList<>();
+        System.out.println("Other users=" + otherUsers.size());
+
+        for (int i = number; i < otherUsers.size() && i < number + userCount; i++) {
+            String tmpId = otherUsers.get(i);
+            friends.add(new UserData(subscribers.get(tmpId).getPlayer().getName(), otherUsers.get(i)));
+        }
+        System.out.println("Subscribers=" + subscribers.size());
+        TelegramWriter writer = (TelegramWriter) logic.getWriter();
+        writer.setKeyboard(new UsersKeyboard(friends));
+        writer.printMsg("Пользователи");
     }
 }

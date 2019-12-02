@@ -1,7 +1,6 @@
 package commands;
 
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -20,13 +19,15 @@ public class CommandConverter {
         return allCommands.values();
     }
 
-    public static void defineCommands() {
+    public static void defineCommands(String system) {
         addCommand(StartCommand.getInstance());
         addCommand(DeleteCommand.getInstance());
         addCommand(ScoresCommand.getInstance());
         addCommand(HelpCommand.getInstance());
-        addCommand(HelpFriendCommand.getInstance());
-        addCommand(HintCommand.getInstance());
+        if (system.equals("Telegram")) {
+            addCommand(HelpFriendCommand.getInstance());
+            addCommand(HintCommand.getInstance());
+        }
     }
 
     public static boolean canConvert(String input) {
