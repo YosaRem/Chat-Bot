@@ -1,4 +1,4 @@
-package chatBot.commands;
+package commands;
 
 
 import java.util.Collection;
@@ -24,8 +24,9 @@ public class CommandConverter {
         addCommand(DeleteCommand.getInstance());
         addCommand(ScoresCommand.getInstance());
         addCommand(HelpCommand.getInstance());
+        addCommand(HelpFriendCommand.getInstance());
         if (system.equals("Telegram")) {
-            addCommand(HelpFriendCommand.getInstance());
+            //addCommand(HelpFriendCommand.getInstance());
             addCommand(HintCommand.getInstance());
             allCommands.put("Помощь", HelpCommand.getInstance());
             allCommands.put("Подсказка", HintCommand.getInstance());
@@ -33,6 +34,6 @@ public class CommandConverter {
     }
 
     public static boolean canConvert(String input) {
-        return allCommands.containsKey(input);
+        return allCommands.containsKey(input.split(" ")[0]);
     }
 }

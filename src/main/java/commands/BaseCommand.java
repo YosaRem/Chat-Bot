@@ -1,4 +1,4 @@
-package chatBot.commands;
+package commands;
 
 
 public abstract class BaseCommand implements ICommand {

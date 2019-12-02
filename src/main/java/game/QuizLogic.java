@@ -1,8 +1,8 @@
 package game;
 
-import chatBot.commands.CommandConverter;
-import chatBot.commands.CommandData;
-import chatBot.commands.HelpCommand;
+import commands.CommandConverter;
+import commands.CommandData;
+import commands.HelpCommand;
 import publisher_subscriber.ISubscriber;
 import taks_models.QuizTask;
 import writers.IWriter;

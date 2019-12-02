@@ -1,6 +1,4 @@
-package chatBot.commands;
-
-import game.QuizLogic;
+package commands;
 
 import java.util.ArrayList;
 
@@ -27,6 +25,6 @@ public class HelpCommand extends BaseCommand {
         for (BaseCommand command : CommandConverter.getAllCommands()) {
             lines.add(command.getDescription());
         }
-        data.logic.getWriter().printMsg(String.join("\n", lines));
+        data.quizLogic.getWriter().printMsg(String.join("\n", lines));
     }
 }

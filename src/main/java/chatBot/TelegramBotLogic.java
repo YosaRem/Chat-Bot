@@ -1,5 +1,7 @@
 package chatBot;
 
+import commands.CommandConverter;
+import commands.CommandData;
 import game.Player;
 import game.QuizGame;
 import game.QuizLogic;
@@ -39,8 +41,18 @@ public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
         synchronized (subscribers) {
             QuizLogic currentSubscriber = subscribers.get(data.getChatId());
             if (currentSubscriber != null) {
+                if (CommandConverter.canConvert(data.getText())){
+                    CommandConverter
+                            .getCommand(data.getText())
+                            .justDoIt(new CommandData(
+                                    currentSubscriber,
+                                    this,
+                                    data.getChatId(),
+                                    data.getText())
+                            );
+                }
                 if (data.getText().equals("/resend")) {
-                    getFriends(subscribers.get(data.getChatId()), data.getChatId());
+                    //getFriends(subscribers.get(data.getChatId()), data.getChatId());
                     return;
                 } else {
                     String[] words = data.getText().split("_");
@@ -68,6 +80,10 @@ public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
         }
     }
 
+    public HashMap<String, QuizLogic> getSubscribers() {
+        return new HashMap<String, QuizLogic>(subscribers);
+    }
+
     public void sendHelpTask(String from, String to) {
         QuizLogic logicTo = subscribers.get(to);
         QuizLogic logicFrom = subscribers.get(from);
@@ -82,36 +98,5 @@ public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
         QuizLogic logicTo = subscribers.get(to);
         TelegramWriter writer = (TelegramWriter) logicTo.getWriter();
         writer.printMsg("Вам советуют ответить: " + text);
-    }
-
-    public void getFriends(QuizLogic logic, String id) {
-        int userCount = 2;
-        if (subscribers.size() == 1) {
-            logic.getWriter().printMsg("В данный момент нет других пользователей.");
-            return;
-        }
-
-        ArrayList<String> otherUsers = new ArrayList<>();
-        for (String subscriber : subscribers.keySet()) {
-            if (subscriber.equals(id))
-                continue;
-            otherUsers.add(subscriber);
-        }
-        Collections.shuffle(otherUsers);
-
-        int number = 0;
-        Random rnd = new Random();
-        if (otherUsers.size() > userCount) {
-            number = rnd.nextInt(otherUsers.size() - userCount);
-        }
-
-        ArrayList<UserData> friends = new ArrayList<>();
-        for (int i = number; i < otherUsers.size() && i < number + userCount; i++) {
-            String tmpId = otherUsers.get(i);
-            friends.add(new UserData(subscribers.get(tmpId).getPlayer().getName(), tmpId));
-        }
-        TelegramWriter writer = (TelegramWriter) logic.getWriter();
-        writer.setKeyboard(new RequestKeyboard(friends));
-        writer.printMsg("Пользователи");
     }
 }
