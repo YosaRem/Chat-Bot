@@ -2,18 +2,18 @@ package chatBot;
 
 public class UserData {
     private final String name;
-    private final String id;
+    private final String sendTo;
 
-    public UserData(String name, String id) {
+    public UserData(String name, String sendTo) {
         this.name = name;
-        this.id = id;
+        this.sendTo = sendTo;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getId() {
-        return id;
+    public String getSendTo() {
+        return sendTo;
     }
 }
