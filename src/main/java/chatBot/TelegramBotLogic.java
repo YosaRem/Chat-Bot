@@ -87,7 +87,7 @@ public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
     public void getFriends(QuizLogic logic, String id) {
         int userCount = 2;
         if (subscribers.size() == 1) {
-            System.out.println("Was return");
+            logic.getWriter().printMsg("В данный момент нет других пользователей.");
             return;
         }
 

@@ -27,6 +27,8 @@ public class CommandConverter {
         if (system.equals("Telegram")) {
             addCommand(HelpFriendCommand.getInstance());
             addCommand(HintCommand.getInstance());
+            allCommands.put("Помощь", HelpCommand.getInstance());
+            allCommands.put("Подсказка", HintCommand.getInstance());
         }
     }
 
