@@ -1,6 +1,6 @@
 package chatBot;
 
-import commands.CommandConverter;
+import chatBot.commands.CommandConverter;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.ApiContext;
@@ -17,9 +17,7 @@ public class TelegramProgram {
         DefaultBotOptions options = ApiContext.getInstance(DefaultBotOptions.class);
         options.setProxyHost("66.110.216.221");
         options.setProxyPort(39603);
-        //Select proxy type: [HTTP|SOCKS4|SOCKS5] (default: NO_PROXY)
         options.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
-
         QuizTasksExtractor extractor = new QuizTasksExtractor(questionPath);
         String botName = System.getenv("TelegramBotName");
         String botToken = System.getenv("TelegramBotToken");

@@ -1,7 +1,6 @@
-package commands;
+package chatBot.commands;
 
 import game.QuizLogic;
-import org.glassfish.grizzly.compression.lzma.impl.Base;
 
 import java.util.ArrayList;
 
@@ -22,12 +21,12 @@ public class HelpCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(QuizLogic logic) {
+    public void justDoIt(CommandData data) {
         ArrayList<String> lines = new ArrayList<>();
         lines.add("Это чат-бот, который позволяет играть в викторину.");
         for (BaseCommand command : CommandConverter.getAllCommands()) {
             lines.add(command.getDescription());
         }
-        logic.getWriter().printMsg(String.join("\n", lines));
+        data.logic.getWriter().printMsg(String.join("\n", lines));
     }
 }

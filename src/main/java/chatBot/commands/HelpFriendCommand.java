@@ -1,9 +1,5 @@
-package commands;
+package chatBot.commands;
 
-import chatBot.TelegramBotLogic;
-import game.QuizLogic;
-
-import java.util.ArrayList;
 
 public class HelpFriendCommand extends BaseCommand {
     private static final HelpFriendCommand command = new HelpFriendCommand();
@@ -18,8 +14,8 @@ public class HelpFriendCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(QuizLogic logic) {
-        logic.getWriter().printMsg("Эта функция будет реализована в скорое время");
+    public void justDoIt(CommandData data) {
+        data.logic.getWriter().printMsg("Эта функция будет реализована в скорое время");
     }
 
     public static HelpFriendCommand getInstance() {

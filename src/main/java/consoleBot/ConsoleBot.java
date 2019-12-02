@@ -1,9 +1,6 @@
 package consoleBot;
 
-import commands.CommandConverter;
-import commands.DeleteCommand;
-import commands.ScoresCommand;
-import commands.StartCommand;
+import chatBot.commands.CommandConverter;
 import game.QuizGame;
 import game.QuizLogic;
 import game.Player;

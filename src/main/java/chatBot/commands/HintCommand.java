@@ -1,4 +1,4 @@
-package commands;
+package chatBot.commands;
 
 import chatBot.HintKeyboard;
 import game.QuizLogic;
@@ -17,9 +17,9 @@ public class HintCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(QuizLogic logic) {
-        TelegramWriter writer = (TelegramWriter) logic.getWriter();
-        writer.setKeyboard(new HintKeyboard(logic.getGame().getCurrentQuestion()));
+    public void justDoIt(CommandData data) {
+        TelegramWriter writer = (TelegramWriter) data.logic.getWriter();
+        writer.setKeyboard(new HintKeyboard(data.logic.getGame().getCurrentQuestion()));
         writer.printMsg("Выберите подсказку, которую хотите использзовать");
     }
 

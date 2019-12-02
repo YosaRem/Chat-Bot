@@ -1,17 +1,14 @@
 package game;
 
-import commands.BaseCommand;
-import commands.CommandConverter;
-import commands.HelpCommand;
+import chatBot.commands.CommandConverter;
+import chatBot.commands.CommandData;
+import chatBot.commands.HelpCommand;
 import publisher_subscriber.ISubscriber;
-import readers.LineReader;
 import taks_models.QuizTask;
 import writers.IWriter;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class QuizLogic implements ISubscriber<String> {
     private Player player;
@@ -19,7 +16,6 @@ public class QuizLogic implements ISubscriber<String> {
     private IWriter writer;
     private QuizTask currentTask;
     private String path;
-    private boolean isSubscriberReady;
 
     public QuizLogic(IWriter writer, Player player, QuizGame game, String instructionsPath) {
         this.writer = writer;
@@ -29,7 +25,7 @@ public class QuizLogic implements ISubscriber<String> {
     }
 
     public void startGame() {
-        HelpCommand.getInstance().justDoIt(this);
+        HelpCommand.getInstance().justDoIt(new CommandData(this));
         declaimTask();
         game.resetLevel();
         player.resetScore();
@@ -93,7 +89,7 @@ public class QuizLogic implements ISubscriber<String> {
     @Override
     public void objectModified(String data) {
         if (CommandConverter.canConvert(data)) {
-            CommandConverter.getCommand(data).justDoIt(this);
+            CommandConverter.getCommand(data).justDoIt(new CommandData(this));
         } else {
             continueGame(data);
         }

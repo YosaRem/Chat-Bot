@@ -1,9 +1,6 @@
-package commands;
+package chatBot.commands;
 
-import game.Player;
-import game.QuizGame;
 import game.QuizLogic;
-import writers.IWriter;
 
 public class ScoresCommand extends BaseCommand {
     private static final ScoresCommand scoresCommand = new ScoresCommand();
@@ -18,9 +15,9 @@ public class ScoresCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(QuizLogic logic) {
-        logic.getWriter().printMsg("Игрок - " + logic.getPlayer().getName() + "\nВаш уровень - "
-                + logic.getGame().getLevel() + "\nВаши очки - " + logic.getPlayer().getScore());
+    public void justDoIt(CommandData data) {
+        data.logic.getWriter().printMsg("Игрок - " + data.logic.getPlayer().getName() + "\nВаш уровень - "
+                + data.logic.getGame().getLevel() + "\nВаши очки - " + data.logic.getPlayer().getScore());
     }
 
     public static BaseCommand getInstance() {

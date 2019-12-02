@@ -1,10 +1,7 @@
-package commands;
+package chatBot.commands;
 
-import game.Player;
-import game.QuizGame;
 import game.QuizLogic;
 import taks_models.QuizTask;
-import writers.IWriter;
 
 public class DeleteCommand extends BaseCommand {
     private static final DeleteCommand deleteCommand = new DeleteCommand();
@@ -14,12 +11,12 @@ public class DeleteCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(QuizLogic logic) {
-        if (logic.getPlayer().useOnlyTwoAnswer()) {
-            QuizTask task = logic.getGame().deleteTwoIncorrectAnswers();
-            logic.getWriter().printTask(task);
+    public void justDoIt(CommandData data) {
+        if (data.logic.getPlayer().useOnlyTwoAnswer()) {
+            QuizTask task = data.logic.getGame().deleteTwoIncorrectAnswers();
+            data.logic.getWriter().printTask(task);
         } else {
-            logic.getWriter().printMsg("Вы уже использовали эту возможность");
+            data.logic.getWriter().printMsg("Вы уже использовали эту возможность");
         }
     }
 

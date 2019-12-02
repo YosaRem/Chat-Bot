@@ -1,9 +1,6 @@
-package commands;
+package chatBot.commands;
 
-import game.Player;
-import game.QuizGame;
 import game.QuizLogic;
-import writers.IWriter;
 
 public class StartCommand extends BaseCommand {
     private static final StartCommand startCommand = new StartCommand();
@@ -18,8 +15,8 @@ public class StartCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(QuizLogic logic) {
-        logic.startGame();
+    public void justDoIt(CommandData data) {
+        data.logic.startGame();
     }
 
     public static BaseCommand getInstance() {

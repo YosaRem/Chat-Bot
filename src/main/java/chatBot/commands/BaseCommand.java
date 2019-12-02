@@ -1,4 +1,4 @@
-package commands;
+package chatBot.commands;
 
 
 public abstract class BaseCommand implements ICommand {
@@ -6,7 +6,7 @@ public abstract class BaseCommand implements ICommand {
 
     public BaseCommand(String name) {
         this.name = name;
-        System.out.println("WAS" + name);
+        System.out.println("WAS " + name);
     }
 
     public abstract String getDescription();

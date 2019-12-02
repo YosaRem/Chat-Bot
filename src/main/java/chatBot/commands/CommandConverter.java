@@ -1,4 +1,4 @@
-package commands;
+package chatBot.commands;
 
 
 import java.util.Collection;
