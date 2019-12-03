@@ -1,6 +1,6 @@
 package consoleBot;
 
-import chatBot.commands.CommandConverter;
+import commands.CommandConverter;
 import game.QuizGame;
 import game.QuizLogic;
 import game.Player;

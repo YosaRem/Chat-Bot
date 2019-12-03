@@ -25,15 +25,15 @@ public class CommandConverter {
         addCommand(ScoresCommand.getInstance());
         addCommand(HelpCommand.getInstance());
         addCommand(HelpFriendCommand.getInstance());
+        addCommand(ResendRequestCommand.getInstance());
+        addCommand(SendHelpAnswerCommand.getInstance());
         if (system.equals("Telegram")) {
-            //addCommand(HelpFriendCommand.getInstance());
-            addCommand(HintCommand.getInstance());
             allCommands.put("Помощь", HelpCommand.getInstance());
             allCommands.put("Подсказка", HintCommand.getInstance());
         }
     }
 
     public static boolean canConvert(String input) {
-        return allCommands.containsKey(input.split(" ")[0]);
+        return allCommands.containsKey(input.split("_")[0]);
     }
 }

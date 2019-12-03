@@ -23,7 +23,9 @@ public class HelpCommand extends BaseCommand {
         ArrayList<String> lines = new ArrayList<>();
         lines.add("Это чат-бот, который позволяет играть в викторину.");
         for (BaseCommand command : CommandConverter.getAllCommands()) {
-            lines.add(command.getDescription());
+            if (command.getDescription() != null){
+                lines.add(command.getDescription());
+            }
         }
         data.quizLogic.getWriter().printMsg(String.join("\n", lines));
     }

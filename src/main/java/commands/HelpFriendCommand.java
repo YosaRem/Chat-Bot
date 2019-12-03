@@ -33,7 +33,7 @@ public class HelpFriendCommand extends BaseCommand {
         }
         ArrayList<String> otherUsers = new ArrayList<>();
         for (String subscriber : subscribers.keySet()) {
-            if (subscriber.equals(data.userId))
+            if (subscriber.equals(data.chatId))
                 continue;
             otherUsers.add(subscriber);
         }

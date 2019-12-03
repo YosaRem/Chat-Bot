@@ -50,21 +50,9 @@ public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
                                     data.getChatId(),
                                     data.getText())
                             );
-                }
-                if (data.getText().equals("/resend")) {
-                    //getFriends(subscribers.get(data.getChatId()), data.getChatId());
-                    return;
                 } else {
-                    String[] words = data.getText().split("_");
-                    if (words[0].equals("/resendrequest")) {
-                        sendHelpTask(data.getChatId(), words[1]);
-                        return;
-                    } else if (words[0].equals("/resendanswer")) {
-                        sendHelpAnswer(words[2], words[1]);
-                        return;
-                    }
+                    currentSubscriber.objectModified(data.getText());
                 }
-                currentSubscriber.objectModified(data.getText());
             } else if (joined.contains(data.getChatId())) {
                 if (data.getText().equals("Начать")) {
                     QuizLogic game = createGame(data.getChatId(), data.getName());
@@ -81,22 +69,6 @@ public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
     }
 
     public HashMap<String, QuizLogic> getSubscribers() {
-        return new HashMap<String, QuizLogic>(subscribers);
-    }
-
-    public void sendHelpTask(String from, String to) {
-        QuizLogic logicTo = subscribers.get(to);
-        QuizLogic logicFrom = subscribers.get(from);
-        TelegramWriter writer = (TelegramWriter) logicTo.getWriter();
-        QuizTask task = logicFrom.getCurrentTask();
-        writer.printMsg("Игрок " + logicFrom.getPlayer().getName() + " просит помочь с задачей");
-        writer.setKeyboard(new RequestAnswerKeyboard(new ArrayList<>(task.getOptions().values()), from));
-        writer.printMsg(task.getQuestion());
-    }
-
-    public void sendHelpAnswer(String text, String to) {
-        QuizLogic logicTo = subscribers.get(to);
-        TelegramWriter writer = (TelegramWriter) logicTo.getWriter();
-        writer.printMsg("Вам советуют ответить: " + text);
+        return new HashMap<>(subscribers);
     }
 }
