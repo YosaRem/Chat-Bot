@@ -1,18 +1,24 @@
 package commands;
 
-import chatBot.RequestAnswerKeyboard;
+import chatBot.TelegramMesData;
+import chatBot.UserData;
+import chatBot.keyboards.RequestAnswerKeyboard;
 import game.QuizLogic;
+import org.telegram.telegrambots.meta.api.objects.User;
 import taks_models.QuizTask;
+import writers.IWriter;
 import writers.TelegramWriter;
+import writers.WriterBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ResendRequestCommand extends BaseCommand {
-    private static final ResendRequestCommand resendRequestCommand = new ResendRequestCommand();
+    private final HashMap<UserData, QuizLogic> subscribers;
 
-    public ResendRequestCommand() {
+    public ResendRequestCommand(HashMap<UserData, QuizLogic> subscribers) {
         super("/resendrequest");
+        this.subscribers = subscribers;
     }
 
     @Override
@@ -21,19 +27,17 @@ public class ResendRequestCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(CommandData data) {
-        HashMap<String, QuizLogic> subscribers = data.tgBotLogic.getSubscribers();
-        String to = data.commandText.split("_")[1];
-        QuizLogic logicTo = subscribers.get(to);
-        QuizLogic logicFrom = subscribers.get(data.chatId);
-        TelegramWriter writer = (TelegramWriter) logicTo.getWriter();
+    public void justDoIt(TelegramMesData data) {
+        String[] info = data.getText().split("_");
+        UserData recipient = new UserData(info[1], info[2]);
+        QuizLogic logicFrom = subscribers.get(data.getUser());
+        IWriter writer = new WriterBuilder(recipient.getChatId()).compile();
         QuizTask task = logicFrom.getCurrentTask();
-        writer.printMsg("Игрок " + logicFrom.getPlayer().getName() + " просит помочь с задачей");
-        writer.setKeyboard(new RequestAnswerKeyboard(new ArrayList<>(task.getOptions().values()), data.chatId));
-        writer.printMsg(task.getQuestion());
-    }
-
-    public static BaseCommand getInstance() {
-        return resendRequestCommand;
+        writer.printMsg("Игрок " + data.getName() + " просит помочь с задачей");
+        new WriterBuilder(recipient.getChatId())
+                .setMsgKeyboard(new RequestAnswerKeyboard(new ArrayList<>(task.getOptions().values()),
+                        data.getUser()))
+                .compile()
+                .printMsg(task.getQuestion());
     }
 }

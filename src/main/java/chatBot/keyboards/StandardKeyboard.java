@@ -1,4 +1,5 @@
-package chatBot;
+package chatBot.keyboards;
+
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -8,18 +9,18 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import java.util.ArrayList;
 import java.util.List;
 
-public class StartKeyboard implements IKeyboard {
+public class StandardKeyboard implements IKeyboard {
     private final ReplyKeyboardMarkup replyKeyboardMarkup;
 
-    public StartKeyboard() {
+    public StandardKeyboard() {
         replyKeyboardMarkup = new ReplyKeyboardMarkup();
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow keyboardFirstRow = new KeyboardRow();
-        keyboardFirstRow.add(new KeyboardButton("Начать"));
+        keyboardFirstRow.add(new KeyboardButton("Подсказка"));
         KeyboardRow keyboardSecondRow = new KeyboardRow();
-        keyboardSecondRow.add(new KeyboardButton("Позже"));
+        keyboardSecondRow.add(new KeyboardButton("Помощь"));
         keyboard.add(keyboardFirstRow);
         keyboard.add(keyboardSecondRow);
         replyKeyboardMarkup.setKeyboard(keyboard);

@@ -18,9 +18,8 @@ public class ConsoleBot {
         IWriter writer = new ConsoleWriter();
         ConsoleReader reader = new ConsoleReader(System.in);
         Player player = new PlayerCreator(reader, writer).cratePlayerFromInput();
-        QuizLogic quizLogic = new QuizLogic(writer, player, game, "src/main/resources/help.txt");
+        QuizLogic quizLogic = new QuizLogic(writer, player, game);
         reader.subscribe(quizLogic);
-        CommandConverter.defineCommands("Console");
         quizLogic.startGame();
         while (true) {
             reader.read();

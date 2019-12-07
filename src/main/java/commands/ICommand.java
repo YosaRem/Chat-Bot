@@ -1,6 +1,8 @@
 package commands;
 
 
+import chatBot.TelegramMesData;
+
 public interface ICommand {
-    void justDoIt(CommandData data);
+    void justDoIt(TelegramMesData data);
 }

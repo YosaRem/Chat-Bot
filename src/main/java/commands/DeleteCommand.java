@@ -1,26 +1,28 @@
 package commands;
 
+import chatBot.TelegramMesData;
+import game.QuizLogic;
 import taks_models.QuizTask;
+import writers.IWriter;
+import writers.WriterBuilder;
 
 public class DeleteCommand extends BaseCommand {
-    private static final DeleteCommand deleteCommand = new DeleteCommand();
+    private QuizLogic logic;
 
-    public DeleteCommand() {
+    public DeleteCommand(QuizLogic logic) {
         super("/del");
+        this.logic = logic;
     }
 
     @Override
-    public void justDoIt(CommandData data) {
-        if (data.quizLogic.getPlayer().useOnlyTwoAnswer()) {
-            QuizTask task = data.quizLogic.getGame().deleteTwoIncorrectAnswers();
-            data.quizLogic.getWriter().printTask(task);
+    public void justDoIt(TelegramMesData data) {
+        IWriter writer = new WriterBuilder(data.getChatId()).compile();
+        if (this.logic.useOnlyTwoAnswer()) {
+            QuizTask task = this.logic.deleteIncorrectAnswer();
+            writer.printTask(task);
         } else {
-            data.quizLogic.getWriter().printMsg("Вы уже использовали эту возможность");
+            writer.printMsg("Вы уже использовали эту возможность");
         }
-    }
-
-    public static BaseCommand getInstance() {
-        return deleteCommand;
     }
 
     @Override

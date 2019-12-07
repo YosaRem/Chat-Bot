@@ -1,14 +1,20 @@
 package commands;
 
+import chatBot.TelegramMesData;
+import chatBot.UserData;
 import game.QuizLogic;
 import writers.TelegramWriter;
+import writers.WriterBuilder;
 
 import java.util.HashMap;
 
 public class SendHelpAnswerCommand extends BaseCommand {
-    private static final SendHelpAnswerCommand sendHelpAnswerCommand = new SendHelpAnswerCommand();
+    private final HashMap<UserData, QuizLogic> subscribers;
 
-    public SendHelpAnswerCommand() { super("/resendanswer"); }
+    public SendHelpAnswerCommand(HashMap<UserData, QuizLogic> subscribers) {
+        super("/resendanswer");
+        this.subscribers = subscribers;
+    }
 
     @Override
     public String getDescription() {
@@ -16,13 +22,8 @@ public class SendHelpAnswerCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(CommandData data) {
-        HashMap<String, QuizLogic> subscribers = data.tgBotLogic.getSubscribers();
-        String[] words = data.commandText.split("_");
-        QuizLogic logicTo = subscribers.get(words[1]);
-        TelegramWriter writer = (TelegramWriter) logicTo.getWriter();
-        writer.printMsg("Вам советуют ответить: " + words[2]);
+    public void justDoIt(TelegramMesData data) {
+        String[] info = data.getText().split("_");
+        new WriterBuilder(info[2]).compile().printMsg("Вам советуют ответить: " + info[3]);
     }
-
-    public static BaseCommand getInstance() { return sendHelpAnswerCommand; }
 }

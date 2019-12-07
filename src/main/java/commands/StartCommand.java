@@ -1,11 +1,15 @@
 package commands;
 
 
-public class StartCommand extends BaseCommand {
-    private static final StartCommand startCommand = new StartCommand();
+import chatBot.TelegramMesData;
+import game.QuizLogic;
 
-    public StartCommand() {
+public class StartCommand extends BaseCommand {
+    private QuizLogic logic;
+
+    public StartCommand(QuizLogic logic) {
         super("/start");
+        this.logic = logic;
     }
 
     @Override
@@ -14,11 +18,7 @@ public class StartCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(CommandData data) {
-        data.quizLogic.startGame();
-    }
-
-    public static BaseCommand getInstance() {
-        return startCommand;
+    public void justDoIt(TelegramMesData data) {
+        logic.startGame();
     }
 }

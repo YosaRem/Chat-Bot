@@ -1,8 +1,5 @@
 package game;
 
-import commands.CommandConverter;
-import commands.CommandData;
-import commands.HelpCommand;
 import publisher_subscriber.ISubscriber;
 import taks_models.QuizTask;
 import writers.IWriter;
@@ -15,17 +12,14 @@ public class QuizLogic implements ISubscriber<String> {
     private QuizGame game;
     private IWriter writer;
     private QuizTask currentTask;
-    private String path;
 
-    public QuizLogic(IWriter writer, Player player, QuizGame game, String instructionsPath) {
+    public QuizLogic(IWriter writer, Player player, QuizGame game) {
         this.writer = writer;
         this.player = player;
         this.game = game;
-        this.path = instructionsPath;
     }
 
     public void startGame() {
-        HelpCommand.getInstance().justDoIt(new CommandData(this));
         declaimTask();
         game.resetLevel();
         player.resetScore();
@@ -70,28 +64,29 @@ public class QuizLogic implements ISubscriber<String> {
         writer.printTask(task);
     }
 
-    public QuizGame getGame() {
-        return game;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public IWriter getWriter() {
-        return writer;
-    }
-
     public QuizTask getCurrentTask() {
         return currentTask;
     }
 
+    public QuizTask deleteIncorrectAnswer() {
+        currentTask = game.deleteTwoIncorrectAnswers();
+        return currentTask;
+    }
+
+    public boolean useOnlyTwoAnswer() {
+        return player.useOnlyTwoAnswer();
+    }
+
+    public int getScore() {
+        return player.getScore();
+    }
+
+    public int getLevel() {
+        return game.getLevel();
+    }
+
     @Override
     public void objectModified(String data) {
-        if (CommandConverter.canConvert(data)) {
-            CommandConverter.getCommand(data).justDoIt(new CommandData(this));
-        } else {
-            continueGame(data);
-        }
+        continueGame(data);
     }
 }

@@ -1,13 +1,18 @@
 package commands;
 
-import chatBot.HintKeyboard;
+import chatBot.TelegramMesData;
+import chatBot.keyboards.HintKeyboard;
+import game.QuizLogic;
+import writers.IWriter;
 import writers.TelegramWriter;
+import writers.WriterBuilder;
 
 public class HintCommand extends BaseCommand {
-    public static final HintCommand hintCommand = new HintCommand();
+    private QuizLogic logic;
 
-    public HintCommand() {
+    public HintCommand(QuizLogic logic) {
         super("/hints");
+        this.logic = logic;
     }
 
     @Override
@@ -16,13 +21,12 @@ public class HintCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(CommandData data) {
-        TelegramWriter writer = (TelegramWriter) data.quizLogic.getWriter();
-        writer.setKeyboard(new HintKeyboard(data.quizLogic.getGame().getCurrentQuestion()));
-        writer.printMsg("Выберите подсказку, которую хотите использзовать");
-    }
-
-    public static BaseCommand getInstance() {
-        return hintCommand;
+    public void justDoIt(TelegramMesData data) {
+        IWriter writer = new WriterBuilder(data.getChatId())
+                .setMsgKeyboard(new HintKeyboard(logic
+                        .getCurrentTask()
+                        .getQuestion()))
+                .compile();
+        writer.printMsg("Выберите подсказку, которую хотите использовать");
     }
 }

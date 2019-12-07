@@ -1,12 +1,17 @@
 package commands;
 
+import chatBot.TelegramMesData;
+import writers.IWriter;
+import writers.WriterBuilder;
+
 import java.util.ArrayList;
 
 public class HelpCommand extends BaseCommand {
-    private static final HelpCommand helpcommand = new HelpCommand();
+    private final CommandConverter cc;
 
-    public HelpCommand() {
+    public HelpCommand(CommandConverter cc) {
         super("/help");
+        this.cc = cc;
     }
 
     @Override
@@ -14,19 +19,16 @@ public class HelpCommand extends BaseCommand {
         return getName() + " Выводит информацию о командах.";
     }
 
-    public static HelpCommand getInstance() {
-        return helpcommand;
-    }
-
     @Override
-    public void justDoIt(CommandData data) {
+    public void justDoIt(TelegramMesData data) {
         ArrayList<String> lines = new ArrayList<>();
         lines.add("Это чат-бот, который позволяет играть в викторину.");
-        for (BaseCommand command : CommandConverter.getAllCommands()) {
-            if (command.getDescription() != null){
+        for (BaseCommand command : this.cc.getAllCommands()) {
+            if (command.getDescription() != null) {
                 lines.add(command.getDescription());
             }
         }
-        data.quizLogic.getWriter().printMsg(String.join("\n", lines));
+        IWriter writer = new WriterBuilder(data.getChatId()).compile();
+        writer.printMsg(String.join("\n", lines));
     }
 }

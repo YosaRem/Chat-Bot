@@ -1,13 +1,13 @@
 package chatBot;
 
+import chatBot.keyboards.IKeyboard;
+import chatBot.keyboards.StandardKeyboard;
+import chatBot.keyboards.StartKeyboard;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
-import org.telegram.telegrambots.meta.api.methods.send.SendGame;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import publisher_subscriber.ISubscriber;
@@ -41,6 +41,11 @@ public class TelegramBot extends TelegramLongPollingBot implements ITelegramBot 
             return;
         }
         String chatId = message.getChatId().toString();
+        if (chatId.equals("665600205")) {
+            sendMsg(chatId, "BANNED", new StartKeyboard());
+            System.out.println("+");
+            return;
+        }
         String firstName = message.getChat().getFirstName();
         printToConsole(message.getDate(), chatId, firstName, text);
         log.log(Level.INFO, "TEXT: ", text);
