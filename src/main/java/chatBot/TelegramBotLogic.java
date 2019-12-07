@@ -3,7 +3,6 @@ package chatBot;
 import chatBot.keyboards.StandardKeyboard;
 import chatBot.keyboards.StartKeyboard;
 import commands.CommandConverter;
-import commands.CommandData;
 import game.Player;
 import game.QuizGame;
 import game.QuizLogic;

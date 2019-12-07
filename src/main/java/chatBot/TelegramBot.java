@@ -41,11 +41,6 @@ public class TelegramBot extends TelegramLongPollingBot implements ITelegramBot 
             return;
         }
         String chatId = message.getChatId().toString();
-        if (chatId.equals("665600205")) {
-            sendMsg(chatId, "BANNED", new StartKeyboard());
-            System.out.println("+");
-            return;
-        }
         String firstName = message.getChat().getFirstName();
         printToConsole(message.getDate(), chatId, firstName, text);
         log.log(Level.INFO, "TEXT: ", text);
