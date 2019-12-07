@@ -1,8 +1,6 @@
 package chatBot;
 
 import chatBot.keyboards.IKeyboard;
-import chatBot.keyboards.StandardKeyboard;
-import chatBot.keyboards.StartKeyboard;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
