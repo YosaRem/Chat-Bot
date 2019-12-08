@@ -1,15 +1,16 @@
 package commands;
 
-import game.Player;
-import game.QuizGame;
+import chatBot.TelegramMesData;
 import game.QuizLogic;
 import writers.IWriter;
+import writers.WriterBuilder;
 
 public class ScoresCommand extends BaseCommand {
-    private static final ScoresCommand scoresCommand = new ScoresCommand();
+    private QuizLogic logic;
 
-    public ScoresCommand() {
+    public ScoresCommand(QuizLogic logic) {
         super("/scores");
+        this.logic = logic;
     }
 
     @Override
@@ -18,12 +19,9 @@ public class ScoresCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(QuizLogic logic) {
-        logic.getWriter().printMsg("Игрок - " + logic.getPlayer().getName() + "\nВаш уровень - "
-                + logic.getGame().getLevel() + "\nВаши очки - " + logic.getPlayer().getScore());
-    }
-
-    public static BaseCommand getInstance() {
-        return scoresCommand;
+    public void justDoIt(TelegramMesData data) {
+        IWriter writer = new WriterBuilder(data.getChatId()).compile();
+        writer.printMsg("Игрок - " + data.getName() + "\nВаш уровень - "
+                + logic.getLevel() + "\nВаши очки - " + logic.getScore());
     }
 }

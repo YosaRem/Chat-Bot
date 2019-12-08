@@ -2,6 +2,8 @@ package writers;
 
 import chatBot.*;
 
+import chatBot.keyboards.IKeyboard;
+import chatBot.keyboards.TaskKeyboard;
 import taks_models.QuizTask;
 
 import java.util.ArrayList;
@@ -9,30 +11,17 @@ import java.util.ArrayList;
 public class TelegramWriter implements IWriter {
     private ITelegramBot bot;
     private String userId;
-    private IKeyboard standardKeyboard;
-    private IKeyboard currentKeyboard;
-    private boolean isUpdateKeyboard;
+    private IKeyboard keyboard;
 
     public TelegramWriter(ITelegramBot telegramBot, String userId, IKeyboard keyboard) {
         bot = telegramBot;
         this.userId = userId;
-        this.standardKeyboard = keyboard;
-        this.isUpdateKeyboard = false;
-    }
-
-    public void setKeyboard(IKeyboard keyboard) {
-        this.currentKeyboard = keyboard;
-        this.isUpdateKeyboard = true;
+        this.keyboard = keyboard;
     }
 
     @Override
     public void printMsg(String message) {
-        if (this.isUpdateKeyboard) {
-            bot.sendMsg(userId, message, currentKeyboard);
-            this.isUpdateKeyboard = false;
-        } else {
-            bot.sendMsg(userId, message, standardKeyboard);
-        }
+        bot.sendMsg(userId, message, keyboard);
     }
 
     @Override

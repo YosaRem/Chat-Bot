@@ -1,4 +1,4 @@
-package chatBot;
+package chatBot.keyboards;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
@@ -7,17 +7,15 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.ArrayList;
 import java.util.List;
 
-public class RequestAnswerKeyboard implements IKeyboard {
+public class TaskKeyboard implements IKeyboard{
     private final InlineKeyboardMarkup taskKeyboard;
 
-    public RequestAnswerKeyboard(ArrayList<String> answers, String id) {
+    public TaskKeyboard(ArrayList<String> answers) {
         this.taskKeyboard = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
         for (int i = 0; i < answers.size(); i++) {
             List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
-            keyboardButtonsRow1.add(new InlineKeyboardButton()
-                    .setText(answers.get(i))
-                    .setCallbackData("/resendanswer_" + id + "_" + answers.get(i)));
+            keyboardButtonsRow1.add(new InlineKeyboardButton().setText(answers.get(i)).setCallbackData(String.valueOf(i + 1)));
             rowList.add(keyboardButtonsRow1);
         }
         taskKeyboard.setKeyboard(rowList);

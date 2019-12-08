@@ -7,6 +7,7 @@ import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import tasks_extractor.QuizTasksExtractor;
+import writers.WriterBuilder;
 
 
 public class TelegramProgram {
@@ -17,7 +18,6 @@ public class TelegramProgram {
         DefaultBotOptions options = ApiContext.getInstance(DefaultBotOptions.class);
         options.setProxyHost("66.110.216.221");
         options.setProxyPort(39603);
-        //Select proxy type: [HTTP|SOCKS4|SOCKS5] (default: NO_PROXY)
         options.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
 
         QuizTasksExtractor extractor = new QuizTasksExtractor(questionPath);
@@ -25,7 +25,7 @@ public class TelegramProgram {
         String botToken = System.getenv("TelegramBotToken");
         TelegramBot bot = new TelegramBot(botName, botToken, options);
         TelegramBotLogic telegramBotLogic = new TelegramBotLogic(bot, extractor);
-        CommandConverter.defineCommands("Telegram");
+        WriterBuilder.setBot(bot);
         bot.subscribe(telegramBotLogic);
 
         try {

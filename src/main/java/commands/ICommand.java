@@ -1,11 +1,8 @@
 package commands;
 
-import game.Player;
-import game.QuizGame;
-import game.QuizLogic;
-import writers.IWriter;
 
+import chatBot.TelegramMesData;
 
 public interface ICommand {
-    void justDoIt(QuizLogic logic);
+    void justDoIt(TelegramMesData data);
 }

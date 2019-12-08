@@ -1,6 +1,6 @@
 package telegrambot;
 
-import chatBot.IKeyboard;
+import chatBot.keyboards.IKeyboard;
 import chatBot.ITelegramBot;
 import publisher_subscriber.ISubscriber;
 

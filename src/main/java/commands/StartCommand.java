@@ -1,15 +1,15 @@
 package commands;
 
-import game.Player;
-import game.QuizGame;
+
+import chatBot.TelegramMesData;
 import game.QuizLogic;
-import writers.IWriter;
 
 public class StartCommand extends BaseCommand {
-    private static final StartCommand startCommand = new StartCommand();
+    private QuizLogic logic;
 
-    public StartCommand() {
+    public StartCommand(QuizLogic logic) {
         super("/start");
+        this.logic = logic;
     }
 
     @Override
@@ -18,11 +18,7 @@ public class StartCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(QuizLogic logic) {
+    public void justDoIt(TelegramMesData data) {
         logic.startGame();
-    }
-
-    public static BaseCommand getInstance() {
-        return startCommand;
     }
 }

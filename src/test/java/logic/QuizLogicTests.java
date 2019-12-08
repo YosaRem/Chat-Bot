@@ -17,7 +17,7 @@ public class QuizLogicTests {
         FakeReader reader = new FakeReader();
         QuizGame game = new QuizGame(new QuizTasksExtractor("src/main/resources/questions"));
         Player player = new Player("Test");
-        QuizLogic logic = new QuizLogic(writer, player, game, "src/main/resources/help.txt");
+        QuizLogic logic = new QuizLogic(writer, player, game);
 
         reader.subscribe(logic);
         logic.startGame();
@@ -33,7 +33,7 @@ public class QuizLogicTests {
         FakeReader reader = new FakeReader();
         QuizGame game = new QuizGame(new QuizTasksExtractor("src/main/resources/questions"));
         Player player = new Player("Test");
-        QuizLogic logic = new QuizLogic(writer, player, game, "src/main/resources/help.txt");
+        QuizLogic logic = new QuizLogic(writer, player, game);
 
         reader.subscribe(logic);
         logic.startGame();

@@ -1,38 +1,47 @@
 package commands;
 
 
+import chatBot.UserData;
+import game.QuizLogic;
+
 import java.util.Collection;
 import java.util.HashMap;
 
 public class CommandConverter {
-    public static final HashMap<String, BaseCommand> allCommands = new HashMap<>();
+    private final HashMap<String, BaseCommand> allCommands = new HashMap<>();
+    private final QuizLogic logic;
+    private final HashMap<UserData, QuizLogic> subscribers;
 
-    public static void addCommand(BaseCommand command) {
+    public CommandConverter(QuizLogic logic, HashMap<UserData, QuizLogic> subscribers) {
+        this.logic = logic;
+        this.subscribers = subscribers;
+    }
+
+    public void addCommand(BaseCommand command) {
         allCommands.put(command.getName(), command);
     }
 
-    public static BaseCommand getCommand(String name) {
-        return allCommands.get(name);
+    public BaseCommand getCommand(String name) {
+        return allCommands.get(name.split("_")[0]);
     }
 
-    public static Collection<BaseCommand> getAllCommands() {
+    public Collection<BaseCommand> getAllCommands() {
         return allCommands.values();
     }
 
-    public static void defineCommands(String system) {
-        addCommand(StartCommand.getInstance());
-        addCommand(DeleteCommand.getInstance());
-        addCommand(ScoresCommand.getInstance());
-        addCommand(HelpCommand.getInstance());
-        if (system.equals("Telegram")) {
-            addCommand(HelpFriendCommand.getInstance());
-            addCommand(HintCommand.getInstance());
-            allCommands.put("Помощь", HelpCommand.getInstance());
-            allCommands.put("Подсказка", HintCommand.getInstance());
-        }
+    public void defineCommands() {
+        addCommand(new StartCommand(this.logic));
+        addCommand(new DeleteCommand(this.logic));
+        addCommand(new ScoresCommand(this.logic));
+        addCommand(new HintCommand(this.logic));
+        addCommand(new HelpCommand(this));
+        addCommand(new HelpFriendCommand(this.subscribers));
+        addCommand(new ResendRequestCommand(this.subscribers));
+        addCommand(new SendHelpAnswerCommand(this.subscribers));
     }
 
-    public static boolean canConvert(String input) {
-        return allCommands.containsKey(input);
+    public boolean canConvert(String input) {
+        String tmp = input.split("_")[0];
+        return allCommands.containsKey(tmp);
     }
 }
