@@ -2,6 +2,7 @@ package commands;
 
 import chatBot.TelegramMesData;
 import game.QuizLogic;
+import writers.ITelegramWriterFactory;
 import writers.IWriter;
 import writers.WriterBuilder;
 
@@ -19,8 +20,8 @@ public class ScoresCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(TelegramMesData data) {
-        IWriter writer = new WriterBuilder(data.getChatId()).compile();
+    public void justDoIt(TelegramMesData data, ITelegramWriterFactory writerFactory) {
+        IWriter writer = writerFactory.compile(data.getChatId());
         writer.printMsg("Игрок - " + data.getName() + "\nВаш уровень - "
                 + logic.getLevel() + "\nВаши очки - " + logic.getScore());
     }

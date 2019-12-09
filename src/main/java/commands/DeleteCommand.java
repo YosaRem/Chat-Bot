@@ -3,6 +3,7 @@ package commands;
 import chatBot.TelegramMesData;
 import game.QuizLogic;
 import taks_models.QuizTask;
+import writers.ITelegramWriterFactory;
 import writers.IWriter;
 import writers.WriterBuilder;
 
@@ -15,8 +16,8 @@ public class DeleteCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(TelegramMesData data) {
-        IWriter writer = new WriterBuilder(data.getChatId()).compile();
+    public void justDoIt(TelegramMesData data, ITelegramWriterFactory writerFactory) {
+        IWriter writer = writerFactory.compile(data.getChatId());
         if (this.logic.useOnlyTwoAnswer()) {
             QuizTask task = this.logic.deleteIncorrectAnswer();
             writer.printTask(task);

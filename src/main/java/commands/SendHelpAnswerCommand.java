@@ -3,6 +3,8 @@ package commands;
 import chatBot.TelegramMesData;
 import chatBot.UserData;
 import game.QuizLogic;
+import writers.ITelegramWriterFactory;
+import writers.IWriter;
 import writers.TelegramWriter;
 import writers.WriterBuilder;
 
@@ -22,8 +24,9 @@ public class SendHelpAnswerCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(TelegramMesData data) {
+    public void justDoIt(TelegramMesData data, ITelegramWriterFactory writerFactory) {
+        IWriter writer = writerFactory.compile(data.getChatId());
         String[] info = data.getText().split("_");
-        new WriterBuilder(info[2]).compile().printMsg("Вам советуют ответить: " + info[3]);
+        writer.printMsg("Вам советуют ответить: " + info[3]);
     }
 }

@@ -3,8 +3,8 @@ package commands;
 import chatBot.TelegramMesData;
 import chatBot.keyboards.HintKeyboard;
 import game.QuizLogic;
+import writers.ITelegramWriterFactory;
 import writers.IWriter;
-import writers.TelegramWriter;
 import writers.WriterBuilder;
 
 public class HintCommand extends BaseCommand {
@@ -21,12 +21,12 @@ public class HintCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(TelegramMesData data) {
-        IWriter writer = new WriterBuilder(data.getChatId())
+    public void justDoIt(TelegramMesData data, ITelegramWriterFactory writerFactory) {
+        IWriter writer = writerFactory
                 .setMsgKeyboard(new HintKeyboard(logic
                         .getCurrentTask()
                         .getQuestion()))
-                .compile();
+                .compile((data.getChatId()));
         writer.printMsg("Выберите подсказку, которую хотите использовать");
     }
 }

@@ -6,7 +6,6 @@ public abstract class BaseCommand implements ICommand {
 
     public BaseCommand(String name) {
         this.name = name;
-        System.out.println("WAS " + name);
     }
 
     public abstract String getDescription();

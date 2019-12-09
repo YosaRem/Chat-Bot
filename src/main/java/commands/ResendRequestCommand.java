@@ -6,6 +6,7 @@ import chatBot.keyboards.RequestAnswerKeyboard;
 import game.QuizLogic;
 import org.telegram.telegrambots.meta.api.objects.User;
 import taks_models.QuizTask;
+import writers.ITelegramWriterFactory;
 import writers.IWriter;
 import writers.TelegramWriter;
 import writers.WriterBuilder;
@@ -27,17 +28,17 @@ public class ResendRequestCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(TelegramMesData data) {
+    public void justDoIt(TelegramMesData data, ITelegramWriterFactory writerFactory) {
+        IWriter writer = writerFactory.compile(data.getChatId());
         String[] info = data.getText().split("_");
         UserData recipient = new UserData(info[1], info[2]);
         QuizLogic logicFrom = subscribers.get(data.getUser());
-        IWriter writer = new WriterBuilder(recipient.getChatId()).compile();
         QuizTask task = logicFrom.getCurrentTask();
         writer.printMsg("Игрок " + data.getName() + " просит помочь с задачей");
-        new WriterBuilder(recipient.getChatId())
+        writerFactory
                 .setMsgKeyboard(new RequestAnswerKeyboard(new ArrayList<>(task.getOptions().values()),
                         data.getUser()))
-                .compile()
+                .compile(recipient.getChatId())
                 .printMsg(task.getQuestion());
     }
 }
