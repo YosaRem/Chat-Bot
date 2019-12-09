@@ -19,6 +19,7 @@ public class CommandConverter {
 
     public void addCommand(BaseCommand command) {
         allCommands.put(command.getName(), command);
+        allCommands.put(command.getRussianName(), command);
     }
 
     public BaseCommand getCommand(String name) {

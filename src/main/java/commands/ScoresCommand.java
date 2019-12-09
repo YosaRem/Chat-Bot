@@ -10,7 +10,7 @@ public class ScoresCommand extends BaseCommand {
     private QuizLogic logic;
 
     public ScoresCommand(QuizLogic logic) {
-        super("/scores");
+        super("/scores", "Получить-очки");
         this.logic = logic;
     }
 

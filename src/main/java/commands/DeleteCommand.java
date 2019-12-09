@@ -11,7 +11,7 @@ public class DeleteCommand extends BaseCommand {
     private QuizLogic logic;
 
     public DeleteCommand(QuizLogic logic) {
-        super("/del");
+        super("/del", "Удалить-два-варианта");
         this.logic = logic;
     }
 

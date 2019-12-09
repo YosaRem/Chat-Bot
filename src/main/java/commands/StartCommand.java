@@ -10,7 +10,7 @@ public class StartCommand extends BaseCommand {
     private QuizLogic logic;
 
     public StartCommand(QuizLogic logic) {
-        super("/start");
+        super("/start", "Старт");
         this.logic = logic;
     }
 

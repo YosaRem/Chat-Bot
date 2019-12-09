@@ -14,7 +14,7 @@ public class SendHelpAnswerCommand extends BaseCommand {
     private final HashMap<UserData, QuizLogic> subscribers;
 
     public SendHelpAnswerCommand(HashMap<UserData, QuizLogic> subscribers) {
-        super("/resendanswer");
+        super("/resendanswer", "Переслать-ответ");
         this.subscribers = subscribers;
     }
 

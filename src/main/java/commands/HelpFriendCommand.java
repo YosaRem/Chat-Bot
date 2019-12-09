@@ -17,7 +17,7 @@ public class HelpFriendCommand extends BaseCommand {
     private HashMap<UserData, QuizLogic> subscribers;
 
     public HelpFriendCommand(HashMap<UserData, QuizLogic> subscribers) {
-        super("/resend");
+        super("/resend", "Помощь-друга");
         this.subscribers = subscribers;
     }
 

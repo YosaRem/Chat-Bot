@@ -11,7 +11,7 @@ public class HintCommand extends BaseCommand {
     private QuizLogic logic;
 
     public HintCommand(QuizLogic logic) {
-        super("/hints");
+        super("/hints","Подсказка");
         this.logic = logic;
     }
 

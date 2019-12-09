@@ -11,7 +11,7 @@ public class HelpCommand extends BaseCommand {
     private final CommandConverter cc;
 
     public HelpCommand(CommandConverter cc) {
-        super("/help");
+        super("/help", "Помощь");
         this.cc = cc;
     }
 

@@ -3,6 +3,7 @@ package writers;
 import chatBot.ITelegramBot;
 import chatBot.keyboards.IKeyboard;
 import chatBot.keyboards.StandardKeyboard;
+import org.apache.logging.log4j.core.appender.TlsSyslogFrame;
 
 public class WriterBuilder implements ITelegramWriterFactory {
     private static ITelegramBot bot;
@@ -26,6 +27,8 @@ public class WriterBuilder implements ITelegramWriterFactory {
 
     @Override
     public IWriter compile(String chatId) {
-        return new TelegramWriter(bot, chatId, msgKeyboard);
+        TelegramWriter writer = new TelegramWriter(bot, chatId, msgKeyboard);
+        this.setMsgKeyboard(new StandardKeyboard());
+        return writer;
     }
 }

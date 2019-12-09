@@ -18,7 +18,7 @@ public class ResendRequestCommand extends BaseCommand {
     private final HashMap<UserData, QuizLogic> subscribers;
 
     public ResendRequestCommand(HashMap<UserData, QuizLogic> subscribers) {
-        super("/resendrequest");
+        super("/resendrequest", "Переслать-вопрос");
         this.subscribers = subscribers;
     }
 
