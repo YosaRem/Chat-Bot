@@ -27,7 +27,9 @@ public class HelpCommand extends BaseCommand {
         lines.add("Это чат-бот, который позволяет играть в викторину.");
         for (BaseCommand command : this.cc.getAllCommands()) {
             if (command.getDescription() != null) {
-                lines.add(command.getDescription());
+                if (!lines.contains(command.getDescription())) {
+                    lines.add(command.getDescription());
+                }
             }
         }
         writer.printMsg(String.join("\n", lines));

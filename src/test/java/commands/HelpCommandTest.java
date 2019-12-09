@@ -30,6 +30,6 @@ public class HelpCommandTest {
                 new HashMap<>());
         converter.defineCommands();
         FakeWriter writer = writerFactory.getWriter();
-        assertEquals(converter.getAllCommands().size() - 1, writer.output.split("\n").length);
+        assertEquals(converter.getAllCommands().size() - 1, 2 * writer.output.split("\n").length + 1);
     }
 }
