@@ -1,6 +1,7 @@
 package logic;
 
 import taks_models.QuizTask;
+import taks_models.QuizTaskValue;
 import writers.IWriter;
 
 public class FakeWriter implements IWriter {
@@ -17,6 +18,6 @@ public class FakeWriter implements IWriter {
 
     @Override
     public void printTask(QuizTask task) {
-        return;
+        output = new QuizTaskValue(task).getDescription();
     }
 }

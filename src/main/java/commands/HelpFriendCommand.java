@@ -5,6 +5,7 @@ import chatBot.TelegramMesData;
 import chatBot.UserData;
 import chatBot.keyboards.RequestKeyboard;
 import game.QuizLogic;
+import writers.ITelegramWriterFactory;
 import writers.IWriter;
 import writers.WriterBuilder;
 
@@ -16,7 +17,7 @@ public class HelpFriendCommand extends BaseCommand {
     private HashMap<UserData, QuizLogic> subscribers;
 
     public HelpFriendCommand(HashMap<UserData, QuizLogic> subscribers) {
-        super("/resend");
+        super("/resend", "Помощь-друга");
         this.subscribers = subscribers;
     }
 
@@ -26,9 +27,9 @@ public class HelpFriendCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(TelegramMesData data) {
+    public void justDoIt(TelegramMesData data, ITelegramWriterFactory writerFactory) {
+        IWriter writer = writerFactory.compile(data.getChatId());
         int userCount = 2;
-        IWriter writer = new WriterBuilder(data.getChatId()).compile();
         if (this.subscribers.size() == 1) {
             writer.printMsg("В данный момент нет других пользователей.");
             return;
@@ -46,7 +47,7 @@ public class HelpFriendCommand extends BaseCommand {
             UserData user = otherUsers.get(i);
             friends.add(user);
         }
-        writer=new WriterBuilder(data.getChatId()).setMsgKeyboard((new RequestKeyboard(friends))).compile();
+        writer = writerFactory.setMsgKeyboard(new RequestKeyboard(friends)).compile(data.getChatId());
         writer.printMsg("Пользователи");
     }
 }

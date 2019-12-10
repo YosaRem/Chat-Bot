@@ -3,12 +3,14 @@ package commands;
 
 import chatBot.TelegramMesData;
 import game.QuizLogic;
+import writers.ITelegramWriterFactory;
+import writers.IWriter;
 
 public class StartCommand extends BaseCommand {
     private QuizLogic logic;
 
     public StartCommand(QuizLogic logic) {
-        super("/start");
+        super("/start", "Старт");
         this.logic = logic;
     }
 
@@ -18,7 +20,7 @@ public class StartCommand extends BaseCommand {
     }
 
     @Override
-    public void justDoIt(TelegramMesData data) {
+    public void justDoIt(TelegramMesData data, ITelegramWriterFactory writerFactory) {
         logic.startGame();
     }
 }
