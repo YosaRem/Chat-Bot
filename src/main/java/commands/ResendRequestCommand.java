@@ -29,9 +29,9 @@ public class ResendRequestCommand extends BaseCommand {
 
     @Override
     public void justDoIt(TelegramMesData data, ITelegramWriterFactory writerFactory) {
-        IWriter writer = writerFactory.compile(data.getChatId());
         String[] info = data.getText().split("_");
         UserData recipient = new UserData(info[1], info[2]);
+        IWriter writer = writerFactory.compile(recipient.getChatId());
         QuizLogic logicFrom = subscribers.get(data.getUser());
         QuizTask task = logicFrom.getCurrentTask();
         writer.printMsg("Игрок " + data.getName() + " просит помочь с задачей");

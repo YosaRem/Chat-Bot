@@ -3,7 +3,6 @@ package writers;
 import chatBot.ITelegramBot;
 import chatBot.keyboards.IKeyboard;
 import chatBot.keyboards.StandardKeyboard;
-import org.apache.logging.log4j.core.appender.TlsSyslogFrame;
 
 public class WriterBuilder implements ITelegramWriterFactory {
     private static ITelegramBot bot;

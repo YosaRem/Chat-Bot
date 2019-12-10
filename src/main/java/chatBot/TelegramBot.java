@@ -17,7 +17,7 @@ public class TelegramBot extends TelegramLongPollingBot implements ITelegramBot 
     private final String botName;
     private final String token;
     private ISubscriber telegramBotLogic;
-    private static Logger log = Logger.getLogger(TelegramBot.class.getName());
+
 
     public TelegramBot(String botName, String token, DefaultBotOptions options) {
         super(options);
@@ -41,7 +41,6 @@ public class TelegramBot extends TelegramLongPollingBot implements ITelegramBot 
         String chatId = message.getChatId().toString();
         String firstName = message.getChat().getFirstName();
         printToConsole(message.getDate(), chatId, firstName, text);
-        log.log(Level.INFO, "TEXT: ", text);
         telegramBotLogic.objectModified(new TelegramMesData(firstName, chatId, text));
     }
 
@@ -56,7 +55,7 @@ public class TelegramBot extends TelegramLongPollingBot implements ITelegramBot 
         try {
             execute(sendMes);
         } catch (TelegramApiException e) {
-            log.log(Level.SEVERE, "Exception: ", e.toString());
+            e.printStackTrace();
         }
     }
 

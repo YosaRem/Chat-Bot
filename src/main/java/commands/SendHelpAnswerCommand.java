@@ -25,8 +25,8 @@ public class SendHelpAnswerCommand extends BaseCommand {
 
     @Override
     public void justDoIt(TelegramMesData data, ITelegramWriterFactory writerFactory) {
-        IWriter writer = writerFactory.compile(data.getChatId());
         String[] info = data.getText().split("_");
+        IWriter writer = writerFactory.compile(info[2]);
         writer.printMsg("Вам советуют ответить: " + info[3]);
     }
 }
