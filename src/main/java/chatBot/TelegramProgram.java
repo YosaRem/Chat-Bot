@@ -24,7 +24,7 @@ public class TelegramProgram {
         String botName = System.getenv("TelegramBotName");
         String botToken = System.getenv("TelegramBotToken");
         TelegramBot bot = new TelegramBot(botName, botToken, options);
-        TelegramBotLogic telegramBotLogic = new TelegramBotLogic(bot, extractor, new WriterBuilder());
+        TelegramBotLogic telegramBotLogic = new TelegramBotLogic(bot, extractor, new WriterBuilder(bot));
         bot.subscribe(telegramBotLogic);
 
         try {

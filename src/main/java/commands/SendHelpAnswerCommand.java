@@ -2,6 +2,7 @@ package commands;
 
 import chatBot.TelegramMesData;
 import chatBot.UserData;
+import chatBot.keyboards.StandardKeyboard;
 import game.QuizLogic;
 import writers.ITelegramWriterFactory;
 import writers.IWriter;
@@ -26,7 +27,7 @@ public class SendHelpAnswerCommand extends BaseCommand {
     @Override
     public void justDoIt(TelegramMesData data, ITelegramWriterFactory writerFactory) {
         String[] info = data.getText().split("_");
-        IWriter writer = writerFactory.compile(info[2]);
+        IWriter writer = writerFactory.compile(info[2], new StandardKeyboard());
         writer.printMsg("Вам советуют ответить: " + info[3]);
     }
 }

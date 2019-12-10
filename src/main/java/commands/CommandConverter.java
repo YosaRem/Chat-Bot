@@ -15,6 +15,7 @@ public class CommandConverter {
     public CommandConverter(QuizLogic logic, HashMap<UserData, QuizLogic> subscribers) {
         this.logic = logic;
         this.subscribers = subscribers;
+        defineCommands();
     }
 
     public void addCommand(BaseCommand command) {
@@ -30,7 +31,7 @@ public class CommandConverter {
         return allCommands.values();
     }
 
-    public void defineCommands() {
+    private void defineCommands() {
         addCommand(new StartCommand(this.logic));
         addCommand(new DeleteCommand(this.logic));
         addCommand(new ScoresCommand(this.logic));

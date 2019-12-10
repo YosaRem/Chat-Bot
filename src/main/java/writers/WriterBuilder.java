@@ -5,28 +5,14 @@ import chatBot.keyboards.IKeyboard;
 import chatBot.keyboards.StandardKeyboard;
 
 public class WriterBuilder implements ITelegramWriterFactory {
-    private static ITelegramBot bot;
-    private IKeyboard msgKeyboard;
+    private ITelegramBot bot;
 
-    public WriterBuilder() {
-        this.msgKeyboard = new StandardKeyboard();
+    public WriterBuilder(ITelegramBot bot) {
+        this.bot = bot;
     }
 
     @Override
-    public ITelegramWriterFactory setBot(ITelegramBot tgBot) {
-        bot = tgBot;
-        return this;
-    }
-
-    @Override
-    public ITelegramWriterFactory setMsgKeyboard(IKeyboard keyboard) {
-        this.msgKeyboard = keyboard;
-        return this;
-    }
-
-    @Override
-    public IWriter compile(String chatId) {
-        TelegramWriter writer = new TelegramWriter(bot, chatId, msgKeyboard);
-        return writer;
+    public IWriter compile(String chatId, IKeyboard keyboard) {
+        return new TelegramWriter(bot, chatId, keyboard);
     }
 }

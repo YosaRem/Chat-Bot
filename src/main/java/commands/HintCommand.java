@@ -23,10 +23,9 @@ public class HintCommand extends BaseCommand {
     @Override
     public void justDoIt(TelegramMesData data, ITelegramWriterFactory writerFactory) {
         IWriter writer = writerFactory
-                .setMsgKeyboard(new HintKeyboard(logic
+                .compile(data.getChatId(),new HintKeyboard(logic
                         .getCurrentTask()
-                        .getQuestion()))
-                .compile((data.getChatId()));
+                        .getQuestion()));
         writer.printMsg("Выберите подсказку, которую хотите использовать");
     }
 }

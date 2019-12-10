@@ -1,6 +1,7 @@
 package commands;
 
 import chatBot.TelegramMesData;
+import chatBot.keyboards.StandardKeyboard;
 import writers.ITelegramWriterFactory;
 import writers.IWriter;
 import writers.WriterBuilder;
@@ -22,7 +23,7 @@ public class HelpCommand extends BaseCommand {
 
     @Override
     public void justDoIt(TelegramMesData data, ITelegramWriterFactory writerFactory) {
-        IWriter writer = writerFactory.compile(data.getChatId());
+        IWriter writer = writerFactory.compile(data.getChatId(), new StandardKeyboard());
         ArrayList<String> lines = new ArrayList<>();
         lines.add("Это чат-бот, который позволяет играть в викторину.");
         for (BaseCommand command : this.cc.getAllCommands()) {

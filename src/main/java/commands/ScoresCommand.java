@@ -1,6 +1,7 @@
 package commands;
 
 import chatBot.TelegramMesData;
+import chatBot.keyboards.StandardKeyboard;
 import game.QuizLogic;
 import writers.ITelegramWriterFactory;
 import writers.IWriter;
@@ -21,7 +22,7 @@ public class ScoresCommand extends BaseCommand {
 
     @Override
     public void justDoIt(TelegramMesData data, ITelegramWriterFactory writerFactory) {
-        IWriter writer = writerFactory.compile(data.getChatId());
+        IWriter writer = writerFactory.compile(data.getChatId(), new StandardKeyboard());
         writer.printMsg("Игрок - " + data.getName() + "\nВаш уровень - "
                 + logic.getLevel() + "\nВаши очки - " + logic.getScore());
     }

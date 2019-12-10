@@ -17,18 +17,16 @@ import java.util.*;
 public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
     private QuizTasksExtractor extractor;
     private final HashMap<UserData, QuizLogic> subscribers;
-    private ITelegramBot telegramBot;
     private ITelegramWriterFactory writerFactory;
 
     public TelegramBotLogic(ITelegramBot telegramBot, QuizTasksExtractor extractor, ITelegramWriterFactory writerFactory) {
-        this.telegramBot = telegramBot;
         this.subscribers = new HashMap<>();
         this.extractor = extractor;
-        this.writerFactory = writerFactory.setBot(telegramBot);
+        this.writerFactory = writerFactory;
     }
 
     private QuizLogic createGame(UserData user) {
-        IWriter writer = writerFactory.setMsgKeyboard(new StandardKeyboard()).compile(user.getChatId());
+        IWriter writer = writerFactory.compile(user.getChatId(), new StandardKeyboard());
         QuizGame game = new QuizGame(extractor);
         Player player = new Player(user.getName());
         QuizLogic quizLogic = new QuizLogic(writer, player, game);
@@ -45,10 +43,8 @@ public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
                 subscribers.put(data.getUser(), game);
             }
             CommandConverter cc = new CommandConverter(subscribers.get(data.getUser()), subscribers);
-            cc.defineCommands();
             if (cc.canConvert(data.getText())) {
                 cc.getCommand(data.getText()).justDoIt(data, writerFactory);
-                writerFactory.setMsgKeyboard(new StandardKeyboard());
             } else {
                 currentSubscriber.objectModified(data.getText());
             }

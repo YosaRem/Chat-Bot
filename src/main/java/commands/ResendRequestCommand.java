@@ -32,14 +32,12 @@ public class ResendRequestCommand extends BaseCommand {
     public void justDoIt(TelegramMesData data, ITelegramWriterFactory writerFactory) {
         String[] info = data.getText().split("_");
         UserData recipient = new UserData(info[1], info[2]);
-        IWriter writer = writerFactory.compile(recipient.getChatId());
+        IWriter writer = writerFactory.compile(recipient.getChatId(), new StandardKeyboard());
         QuizLogic logicFrom = subscribers.get(data.getUser());
         QuizTask task = logicFrom.getCurrentTask();
         writer.printMsg("Игрок " + data.getName() + " просит помочь с задачей");
         writerFactory
-                .setMsgKeyboard(new RequestAnswerKeyboard(new ArrayList<>(task.getOptions().values()),
-                        data.getUser()))
-                .compile(recipient.getChatId())
+                .compile(recipient.getChatId(), new RequestAnswerKeyboard(new ArrayList<>(task.getOptions().values()), data.getUser()))
                 .printMsg(task.getQuestion());
 
     }
