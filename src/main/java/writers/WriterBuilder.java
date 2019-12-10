@@ -27,7 +27,6 @@ public class WriterBuilder implements ITelegramWriterFactory {
     @Override
     public IWriter compile(String chatId) {
         TelegramWriter writer = new TelegramWriter(bot, chatId, msgKeyboard);
-        this.setMsgKeyboard(new StandardKeyboard());
         return writer;
     }
 }

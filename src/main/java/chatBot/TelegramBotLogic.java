@@ -48,6 +48,7 @@ public class TelegramBotLogic implements ISubscriber<TelegramMesData> {
             cc.defineCommands();
             if (cc.canConvert(data.getText())) {
                 cc.getCommand(data.getText()).justDoIt(data, writerFactory);
+                writerFactory.setMsgKeyboard(new StandardKeyboard());
             } else {
                 currentSubscriber.objectModified(data.getText());
             }
